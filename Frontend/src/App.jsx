@@ -12,7 +12,7 @@ import Profile from "./components/Profile/Profile";
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 // import AddAsset from "./components/AddAsset/AddAsset";
-import Assets from "./Components/Assets/Assets";
+
 import AddAsset from "./Components/AddAsset/AddAsset";
 
 function App() {

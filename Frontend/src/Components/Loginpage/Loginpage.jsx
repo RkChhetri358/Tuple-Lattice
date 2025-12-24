@@ -171,14 +171,5 @@ const Login = () => {
   </button>
 </div>
     
-        {/* SIGNUP */} <div className="signup-link"> Don’t have an account?{" "} 
-          <Link to="/signup"> <span onClick={() => alert("Redirect to Sign Up page")}>Sign up</span> </Link>
-           </div>
-          <div className="terms-condition"> By continuing, you agree to UTA's 
-            <span>Terms of Use</span> and <span>Privacy Policy</span> 
-            </div> 
-            </div> 
-            </div> 
-            ); }; 
-        
-        export default Login;
+
+
