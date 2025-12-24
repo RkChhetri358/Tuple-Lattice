@@ -12,6 +12,7 @@ import Profile from "./components/Profile/Profile";
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 import AddAsset from "./components/AddAsset/AddAsset";
+import Asset from "./components/Asset/Asset";
 
 function App() {
   return (
@@ -22,7 +23,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
-
+        <Route path="/asset" element={<Asset/>} />
+        
        
         <Route path="/layout" element={<Layout />}>
           <Route index element={<Dashboard />} />            

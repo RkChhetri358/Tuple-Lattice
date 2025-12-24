@@ -4,17 +4,15 @@ import Navbar from "../Navbar/Navbar";
 import "./Layout.css";
 
 const Layout = () => {
-  const isTransparent = document.body.classList.contains("has-transparent-navbar");
-
   return (
     <div className="layout-container">
-      <div className={`layout-navbar ${isTransparent ? "transparent" : ""}`}>
-        <Navbar />
-      </div>
+      {/* FIXED NAVBAR */}
+      <Navbar />
 
-      <div className="layout-content">
+      {/* PAGE CONTENT */}
+      <main className="layout-content">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 };
