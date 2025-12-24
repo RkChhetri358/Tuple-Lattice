@@ -1,0 +1,118 @@
+.homecontainer {
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  height: 100vh;
+  background-color: #f8fafc;
+  /* border: 2px solid red; */
+}
+
+.left{
+    display: flex;
+  justify-content: right;
+  align-items: center;
+  /* border: 2px solid red; */
+     
+}
+
+.right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid red; */
+     
+}
+
+/* THIS is the card */
+.card {
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+  transform-style: preserve-3d;
+}
+
+/* Image stays FIXED inside card */
+.card img {
+  width: 733 px;
+  height: 642px;
+  display: block;
+  border-radius: 12px;
+  pointer-events: none;
+}
+.logopic{
+    /* border: 2px solid red; */
+    width: 300 px;
+     height: 240px;
+}
+.rightbox{
+    /* border: 2px solid red; */
+    height: 77vh;
+    width: 76%;
+    display: grid;
+    grid-template-rows: 2fr 1fr 1fr
+}
+.rightbox1{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
+}
+.rightbox2{
+    /* border: 2px solid red; */
+    display: grid;
+    grid-template-rows: 2fr 1fr;
+}
+.textrightbox2up{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-size: 80px;
+    font-weight: 700;
+    color: #9aa6b2;
+    font-style: normal;
+}
+.textrightbox2down{
+    display: flex;
+    justify-content: center;
+    align-items: up;
+    /* border: 2px solid red; */
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: #9aa6b2;
+
+    font-size: 25px;
+}
+.rightbox3{
+    /* border: 2px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items:center;    
+}
+.getstarted {
+    background-color: black;
+    color: white;
+    font-family: "Raleway", sans-serif;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover effect */
+.getstarted:hover {
+    background-color: #ffffff; /* Slightly lighter black */
+    color: black;
+    transform: translateY(-2px) scale(1.0); /* Raises button and enlarges slightly */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Click / active effect */
+.getstarted:active {
+    transform: translateY(1px) scale(0.98); /* Pressed down effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background-color: #222; /* Darker black on click */
+}

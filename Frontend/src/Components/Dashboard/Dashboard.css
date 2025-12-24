@@ -1,0 +1,7 @@
+.dashboardcontainer {
+  min-height: 100vh;
+ 
+  background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  font-family: "Raleway", sans-serif;
+}
