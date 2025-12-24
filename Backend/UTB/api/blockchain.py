@@ -29,7 +29,7 @@ from web3 import Web3
 from web3.logs import DISCARD  # <--- IMPORT THIS
 
 # Updated function signature: removed metadata_uri, added file_obj
-def mint_art_artist(private_key, royalty, primary_price, title, description, file_obj):
+def mint_art_artist(private_key, royalty, primary_price, title, description, file_obj,cover_obj):
     account = w3.eth.account.from_key(private_key)
     artist_address = account.address
 
@@ -61,20 +61,18 @@ def mint_art_artist(private_key, royalty, primary_price, title, description, fil
     token_id = logs[0]['args']['tokenId']
 
     # 4. Save to Database
-    artist_user, created = User.objects.get_or_create(
+    artist_user, _ = User.objects.get_or_create(
         wallet_address__iexact=artist_address,
-        defaults={
-            'username': f"Artist_{artist_address[2:8]}", 
-            'role': 'artist'
-        }
+        defaults={'username': f"Artist_{artist_address[2:8]}", 'role': 'artist'}
     )
 
-    # Now create the Artwork
-    artwork = Artwork.objects.create(
+    # Now include cover_image in the creation
+    Artwork.objects.create(
         token_id=token_id,
         artist=artist_user,
         owner=artist_user,
         file=file_obj,
+        cover_image=cover_obj, # Save the cover here
         title=title,
         description=description,
         royalty_percentage=royalty

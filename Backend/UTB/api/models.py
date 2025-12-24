@@ -42,6 +42,7 @@ class Artwork(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     file = models.FileField(upload_to='artworks/', null=True, blank=True)
+    cover_image = models.ImageField(upload_to='covers/', null=True, blank=True)
     royalty_percentage = models.PositiveIntegerField()  # basis points
 
 

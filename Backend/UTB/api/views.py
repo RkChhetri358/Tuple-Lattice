@@ -16,23 +16,24 @@ from .serializers import ArtworkSerializer
 @permission_classes([AllowAny]) 
 def mint_art_api(request):
     try:
-        # 1. Get file and data
-        # request.data handles text, request.FILES handles the file upload
+        # 1. Get both files (the asset and the thumbnail)
         file_obj = request.FILES.get('file') 
+        cover_obj = request.FILES.get('cover_image') # New line
         data = request.data
         
         if not file_obj:
-            return Response({"error": "No file uploaded"}, status=400)
+            return Response({"error": "No asset file uploaded"}, status=400)
 
         # 2. Blockchain Minting
-        # We pass the file_obj so blockchain.py can save it to the Artwork model
+        # Added cover_obj to the parameters
         token_id = mint_art_artist(
             private_key=data.get("private_key"),
             royalty=int(data.get("royalty")),
             primary_price=int(data.get("primary_price")),
             title=data.get("title"),
             description=data.get("description"),
-            file_obj=file_obj  # Updated parameter
+            file_obj=file_obj,
+            cover_obj=cover_obj  # New parameter passed to blockchain.py
         )
 
         # 3. Fetch and Respond
@@ -40,9 +41,8 @@ def mint_art_api(request):
 
         return Response({
             "token_id": token_id, 
-            "database_id": artwork.pk, 
-            "owner": artwork.owner.username if artwork.owner else "Unknown",
-            "file_url": artwork.file.url, # Returns the path to the file
+            "file_url": artwork.file.url,
+            "cover_url": artwork.cover_image.url if artwork.cover_image else None, # New
             "status": "Minted and Saved Successfully"
         }, status=201)
         
