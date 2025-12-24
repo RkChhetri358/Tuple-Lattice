@@ -7,7 +7,7 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Artwork)
 class ArtworkAdmin(admin.ModelAdmin):
-    list_display = ('token_id', 'title', 'artist', 'royalty_percentage', 'metadata_uri')
+    list_display = ('token_id', 'title', 'artist', 'owner', 'file')
 
 @admin.register(Listing)
 class ListingAdmin(admin.ModelAdmin):

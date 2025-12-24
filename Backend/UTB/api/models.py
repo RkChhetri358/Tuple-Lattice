@@ -38,9 +38,10 @@ class User(AbstractUser):
 class Artwork(models.Model):
     token_id = models.PositiveIntegerField(unique=True)
     artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_art")
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="owned_art")
     title = models.CharField(max_length=255)
     description = models.TextField()
-    metadata_uri = models.URLField()
+    file = models.FileField(upload_to='artworks/', null=True, blank=True)
     royalty_percentage = models.PositiveIntegerField()  # basis points
 
 
