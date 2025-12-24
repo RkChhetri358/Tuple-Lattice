@@ -1,18 +1,36 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import "./Loginpage.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // After login, navigate to Layout (Dashboard by default)
-    navigate("/layout");
+    navigate("/dashboard"); // change to "/home" if needed
+  };
+
+  /* 🔐 SOCIAL LOGIN REDIRECTS */
+  const googleLogin = () => {
+    window.location.href = "https://accounts.google.com/o/oauth2/v2/auth";
+  };
+
+  const facebookLogin = () => {
+    window.location.href = "https://www.facebook.com/v18.0/dialog/oauth";
+  };
+
+  const discordLogin = () => {
+    window.location.href = "https://discord.com/oauth2/authorize";
   };
 
   return (
@@ -24,7 +42,7 @@ const Login = () => {
 
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>Username or Email</label>
+            <label>Username or email</label>
             <input
               type="text"
               name="username"
@@ -44,23 +62,56 @@ const Login = () => {
                 value={formData.password}
                 onChange={handleChange}
               />
-              <span className="toggle-password" onClick={() => setShowPassword(!showPassword)}>
+              <span
+                className="toggle-password"
+                onClick={() => setShowPassword(!showPassword)}
+              >
                 👁
               </span>
             </div>
           </div>
 
-          <div className="forgot-password">Forgot Password</div>
+        
 
-          <button className="login-btn" type="submit">Login</button>
+
+
+
+          <div className="forgot-password">
+            Forgot Password
+          </div>
+
+          <button className="login-btn" type="submit">
+            Login
+          </button>
         </form>
 
-        <div className="signup-link">
-          Don’t have an account? <Link to="/signup">Sign up</Link>
+        <div className="divider">
+          <span>or continue with</span>
         </div>
-      </div>
-    </div>
-  );
-};
+      <div className="social-login">
+  <button className="social-btn" onClick={googleLogin}>
+    <img
+      src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+      alt="Google"
+      height="20"
+    />
+  </button>
 
-export default Login;
+  <button className="social-btn" onClick={facebookLogin}>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+      alt="Facebook"
+      height="20"
+    />
+  </button>
+
+  <button className="social-btn" onClick={discordLogin}>
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png"
+      alt="Discord"
+      height="20"
+    />
+  </button>
+</div>
+    
+        {/* SIGNUP */} <div className="signup-link"> Don’t have an account?{" "} <span onClick={() => alert("Redirect to Sign Up page")}>Sign up</span> </div> <div className="terms-condition"> By continuing, you agree to UTA's <span>Terms of Use</span> and <span>Privacy Policy</span> </div> </div> </div> ); }; export default Login;
