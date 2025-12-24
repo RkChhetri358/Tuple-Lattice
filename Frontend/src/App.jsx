@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./components/LandingPage/LandingPage";
-import Login from "./components/Loginpage/Loginpage";
+// import Login from "./components/Loginpage/Loginpage";
+import Login from "./Components/Loginpage/Loginpage";
 import Signup from "./components/Signup/Signup";
 
 import Dashboard from "./components/Dashboard/Dashboard";

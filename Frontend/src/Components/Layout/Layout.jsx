@@ -4,14 +4,14 @@ import Navbar from "../Navbar/Navbar";
 import "./Layout.css";
 
 const Layout = () => {
+  const isTransparent = document.body.classList.contains("has-transparent-navbar");
+
   return (
     <div className="layout-container">
-      {/* Row 1: Navbar */}
-      <div className="layout-navbar">
+      <div className={`layout-navbar ${isTransparent ? "transparent" : ""}`}>
         <Navbar />
       </div>
 
-      {/* Row 2: Dynamic content */}
       <div className="layout-content">
         <Outlet />
       </div>

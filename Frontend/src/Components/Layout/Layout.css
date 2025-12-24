@@ -7,3 +7,8 @@
 .contentpart {
   padding-top: 80px; /* adjust based on navbar height */
 }
+/* Layout.css or wherever navbar styles are */
+.layout-navbar {
+  position: relative; /* or fixed if you want it sticky */
+  z-index: 1000;      /* high enough so it's on top */
+}

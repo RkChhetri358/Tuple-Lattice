@@ -16,7 +16,8 @@ const Navbar = () => {
   <div className="navcenter">
     <ul className="navbar-menu">
       <li>
-        <NavLink to="/layout" end className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink  to="/layout/dashboard"
+  className={({ isActive }) => (isActive ? "active" : "")}>
           Dashboard
         </NavLink>
       </li>

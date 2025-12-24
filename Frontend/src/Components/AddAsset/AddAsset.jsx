@@ -1,9 +1,19 @@
 
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import "./AddAsset.css";
 
 export default function AddAsset() {
+
+useEffect(() => {
+  document.body.classList.add("has-transparent-navbar");
+  return () => {
+    document.body.classList.remove("has-transparent-navbar");
+  };
+}, []);
+
+
+
   const [royalty, setRoyalty] = useState(5.0);
    const [preview, setPreview] = useState(null);
  

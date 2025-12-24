@@ -2,10 +2,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  
 }
 
 /* ================= NAVBAR ================= */
 .navbar-container {
+  
   height: 90px;
   width: 100vw;
   display: grid;
@@ -13,6 +15,7 @@
   align-items: center;
   font-family: "Raleway", sans-serif;
   background: transparent; /* change to your desired background */
+  position: fixed;
 }
 
 /* ================= LOGO ================= */

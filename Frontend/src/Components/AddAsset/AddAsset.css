@@ -4,7 +4,7 @@
   min-height: 100vh;
   background: url("/OGBG.png") no-repeat center center;
   background-size: cover;
-  padding: 40px 80px;
+  padding: 100px 80px;
   font-family: "Raleway", sans-serif;
 }
 
@@ -177,4 +177,15 @@
 
 .assets-footer p {
   font-size: 12px;
+}
+
+
+
+
+
+.page-container {
+  min-height: 100vh;
+  background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  padding-top: 80px;
 }
