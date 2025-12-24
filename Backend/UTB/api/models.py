@@ -36,16 +36,23 @@ class User(AbstractUser):
 
 
 class Artwork(models.Model):
-    token_id = models.PositiveIntegerField(unique=True)
-    artist = models.ForeignKey(User, on_delete=models.CASCADE, related_name="created_art")
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    metadata_uri = models.URLField()
-    royalty_percentage = models.PositiveIntegerField()  # basis points
-
+    
 
 class Listing(models.Model):
     artwork = models.ForeignKey(Artwork, on_delete=models.CASCADE)
     seller = models.ForeignKey(User, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=18, decimal_places=8)
     active = models.BooleanField(default=True)
+
+
+
+class AddAsset(models.Model):
+    asset_name = models.CharField(max_length=255)
+    asset_type = models.CharField(max_length=255)
+    email = models.EmailField(max_length=255)
+    creation_date = models.DateTimeField(auto_now_add=True)
+    asset_price = models.DecimalField(max_digits=18, decimal_places=8)
+    asset_file = models.CharField(max_length=255)
+    description = models.TextField()
+    royalty_percentage = models.DecimalField(max_digits=5, decimal_places=2)
+    asset_photo = models.CharField(max_length=255)
