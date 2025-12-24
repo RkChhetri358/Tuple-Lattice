@@ -1,15 +1,14 @@
+/* ================= PROFILE CONTAINER ================= */
 .profile-container {
   width: 100vw;
   min-height: 100vh;
   padding-top: 120px; /* navbar offset */
-  
-
- background: url("/bg.png") no-repeat center center;
+  background: url("/bg.png") no-repeat center center;
   background-size: cover;
   box-sizing: border-box;
 }
 
-/* GRID */
+/* ================= GRID ================= */
 .profile-grid {
   max-width: 1200px;
   margin: auto;
@@ -18,18 +17,19 @@
   gap: 80px;
 }
 
-/* LEFT */
+/* ================= LEFT COLUMN ================= */
 .left-col {
   display: flex;
   flex-direction: column;
   gap: 50px;
 }
 
+/* ---- BALANCE CARD ---- */
 .balance-card {
   background: #ff2d2d;
   color: white;
   border-radius: 28px;
-  padding: 40px 30px 26px; 
+  padding: 40px 30px 26px;
   width: 550px;
   height: 200px;
 }
@@ -38,13 +38,13 @@
   display: flex;
   justify-content: space-between;
   font-size: 25px;
-   font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .balance-amount {
   font-size: 45px;
   margin: 0px 0 8px;
-    font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .pending-text {
@@ -52,21 +52,20 @@
   text-align: right;
   padding-right: 40px;
   opacity: 0.85;
-    font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
+/* ---- CHART BOX ---- */
 .chart-box {
-    /* border: 2px solid red; */
   width: 600px;
   height: 260px;
   background: white;
   border-radius: 18px;
-  padding: 14px 16px 10px; /* 👈 important */
+  padding: 14px 16px 10px;
   box-sizing: border-box;
 }
 
-
-/* RIGHT */
+/* ================= RIGHT COLUMN ================= */
 .right-col {
   display: flex;
   flex-direction: column;
@@ -87,7 +86,7 @@
 }
 
 .profile-text p {
-    font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
   font-size: 15px;
   color: #000000;
   max-width: 240px;
@@ -95,20 +94,19 @@
 
 .profile-text h3 {
   margin: 20px 0 2px;
-    font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
 .profile-text span {
   font-size: 15px;
   color: #999;
-    font-family: "Raleway", sans-serif;
+  font-family: "Raleway", sans-serif;
 }
 
-/* REVENUE */
+/* ================= REVENUE CARD ================= */
 .revenue-card {
- background: white;
-    font-family: "Raleway", sans-serif;
-
+  background: white;
+  font-family: "Raleway", sans-serif;
   border-radius: 26px;
   padding: 26px;
   width: 490px;
@@ -128,24 +126,41 @@
   margin-bottom: 16px;
 }
 
+.rev-title {
+  font-weight: 700;
+}
+
+/* Progress bar */
 .bar {
   height: 6px;
   background: rgb(243, 242, 242);
   border-radius: 6px;
 }
 
-.bar div {
+.bar-fill {
   height: 100%;
   background: #ff2d2d;
   border-radius: 6px;
 }
 
+/* Right column: percentage and amount */
 .right {
-  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-family: "Raleway", sans-serif;
   text-align: right;
-    font-family: "Raleway", sans-serif;
-  
 }
-.rev-title{
-    font-weight: 700;
+
+.right .percent {
+  color: #ff2d2d;    /* red for percentage */
+  font-weight: 700;   /* bold for percentage */
+  font-size: 15px;
+}
+
+.right .amount {
+  color: #000;        /* black for amount */
+  font-weight: 400;   /* normal weight */
+  font-size: 15px;
+  margin-top: 2px;    /* small space below percentage */
 }
