@@ -17,7 +17,7 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("/dashboard"); // change to "/home" if needed
+    navigate("/layout/dashboard"); // change to "/home" if needed
   };
 
   /* 🔐 SOCIAL LOGIN REDIRECTS */
