@@ -28,11 +28,14 @@ contract = w3.eth.contract(
 from web3 import Web3
 from web3.logs import DISCARD  # <--- IMPORT THIS
 
-def mint_art_artist(private_key, royalty, primary_price, title, description, metadata_uri):
+# Updated function signature: removed metadata_uri, added file_obj
+def mint_art_artist(private_key, royalty, primary_price, title, description, file_obj):
     account = w3.eth.account.from_key(private_key)
     artist_address = account.address
 
     # 1. Prepare transaction
+    # Note: If your smart contract STILL requires a URI string, 
+    # you can pass a dummy string or the future URL of the file here.
     tx = contract.functions.mintArt(
         int(royalty),
         int(primary_price)
@@ -51,27 +54,29 @@ def mint_art_artist(private_key, royalty, primary_price, title, description, met
     if receipt['status'] != 1:
         raise Exception("Minting transaction failed on-chain")
 
-    # 3. FIX: Extract TokenID using the DISCARD constant
-    # This ignores the 'Approval' event that OpenZeppelin v5 adds internally
+    # 3. Extract TokenID
     logs = contract.events.Transfer().process_receipt(receipt, errors=DISCARD)
-    
     if not logs:
         raise Exception("Transfer event not found in receipt")
-        
     token_id = logs[0]['args']['tokenId']
 
     # 4. Save to Database
-    artist_user, _ = User.objects.get_or_create(
+    artist_user, created = User.objects.get_or_create(
         wallet_address__iexact=artist_address,
-        defaults={'username': f"Artist_{artist_address[2:8]}", 'role': 'artist'}
+        defaults={
+            'username': f"Artist_{artist_address[2:8]}", 
+            'role': 'artist'
+        }
     )
 
-    Artwork.objects.create(
+    # Now create the Artwork
+    artwork = Artwork.objects.create(
         token_id=token_id,
         artist=artist_user,
+        owner=artist_user,
+        file=file_obj,
         title=title,
         description=description,
-        metadata_uri=metadata_uri,
         royalty_percentage=royalty
     )
     
