@@ -13,6 +13,7 @@ export default function AddAsset() {
     description: "",
     price: "",
     confirmRights: false,
+    privateKey: "",
   });
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function AddAsset() {
           description: "",
           price: "",
           confirmRights: false,
+          privateKey: "",
         });
         setPreview(null);
         setRoyalty(5.0);
@@ -120,6 +122,15 @@ export default function AddAsset() {
           <h3>General Information</h3>
 
           <div className="form-row">
+            <div className="form-group">
+              <label>Private Key</label>
+              <input
+                name="privateKey"
+                value={formData.privateKey}
+                placeholder="Private Key"
+                onChange={handleChange}
+              />
+            </div>
             <div className="form-group">
               <label>Name your asset</label>
               <input
