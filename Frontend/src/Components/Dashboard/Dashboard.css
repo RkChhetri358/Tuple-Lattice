@@ -2,68 +2,110 @@
   border: 2px solid red;
   min-height: 100vh;
   width: 100vw;
-
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
-
   font-family: "Raleway", sans-serif;
-  display: grid;
-  grid-template-rows: 1fr 2fr 1fr;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 80px 20px 40px;
+  box-sizing: border-box;
+  overflow: hidden; /* prevent scrolling */
 }
-/* WelcomeSection.css */
 
+/* ================= WELCOME SECTION ================= */
 .welcome-section {
-  position: relative;
-  margin-top: 120px;
+  border: 2px solid red;
+
+  flex: 0 0 auto;
+  text-align: center;
+  padding-bottom: 10px;
 }
 
-/* "Welcome" — slightly right-shifted */
 .welcome-text {
-  position: relative;
-  right: 200px;   /* 👈 this creates the visual offset */
-  text-align: center;
-  font-size: 40px;
+  font-size: 24px;
   font-weight: 400;
   margin-bottom: 6px;
 }
 
-/* Mr. Yadav — perfectly centered */
 .welcome-name {
-  text-align: center;
   font-family: "Playfair Display", serif;
-  font-size: 54px;
+  font-size: 48px;
   font-weight: 700;
   line-height: 1.1;
 }
 
-/* Subtitle stays centered */
 .welcome-role {
-  text-align: center;
   margin-top: 8px;
-  font-size: 15px;
+  font-size: 14px;
   color: #333;
 }
 
+/* ================= CAROUSEL SECTION ================= */
+.dashboardmiddle {
+  border: 2px solid red;
 
-/* ================= STATS ================= */
+  flex: 1 1 auto;
+  max-height: 55vh; /* Limit height to avoid overflow */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+}
 
+.carousel-wrapper {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.carousel-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+}
+
+/* ================= STATS SECTION ================= */
 .stats-section {
-  margin-top: 110px;
+  border: 2px solid red;
+
+  flex: 0 0 auto;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
-  gap: 120px;
+  gap: 80px;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .stat-item h2 {
   font-family: "Playfair Display", serif;
-  font-size: 56px;
+  font-size: 42px;
   font-weight: 700;
 }
 
 .stat-item p {
   margin-top: 6px;
-  font-size: 16px;
+  font-size: 14px;
   color: #444;
   letter-spacing: 0.4px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .welcome-name { font-size: 36px; }
+  .welcome-text { font-size: 20px; }
+  .stats-section { gap: 60px; }
+  .stat-item h2 { font-size: 36px; }
+}
+
+@media (max-width: 768px) {
+  .welcome-name { font-size: 32px; }
+  .welcome-text { font-size: 18px; }
+  .welcome-role { font-size: 12px; }
+  .stats-section { gap: 40px; padding: 15px 0; }
+  .stat-item h2 { font-size: 32px; }
+  .stat-item p { font-size: 12px; }
 }

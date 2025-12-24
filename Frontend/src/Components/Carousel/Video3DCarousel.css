@@ -1,0 +1,4 @@
+.carousel-wrapper {
+  position: relative; 
+  z-index: 1; /* lower than navbar */
+}

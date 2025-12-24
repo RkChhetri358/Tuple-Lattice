@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 
 const Video3DCarousel = () => {
+  const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const mouseRef = useRef({ x: 0, y: 0 });
   const rotationRef = useRef(0);
@@ -10,18 +11,24 @@ const Video3DCarousel = () => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    const container = containerRef.current;
+    if (!canvas || !container) return;
 
     const ctx = canvas.getContext("2d");
     let animationId;
 
+    // Resize canvas to container
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const rect = container.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
     };
     resize();
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
     window.addEventListener("resize", resize);
 
+    // Videos
     const videos = [
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
       "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
@@ -37,11 +44,7 @@ const Video3DCarousel = () => {
       video.playsInline = true;
       video.autoplay = true;
       video.play().catch(() => {});
-      return {
-        element: video,
-        angle: (i / 5) * Math.PI * 2,
-        loaded: false
-      };
+      return { element: video, angle: (i / 5) * Math.PI * 2, loaded: false };
     });
 
     videos.forEach((v) => {
@@ -50,9 +53,20 @@ const Video3DCarousel = () => {
       });
     });
 
+    // Drag rotation
+    const handleMouseDown = (e) => {
+      isDraggingRef.current = true;
+      lastMouseXRef.current = e.clientX;
+      canvas.style.cursor = "grabbing";
+    };
+    const handleMouseUp = () => {
+      isDraggingRef.current = false;
+      canvas.style.cursor = "grab";
+    };
     const handleMouseMove = (e) => {
-      mouseRef.current.x = (e.clientX / window.innerWidth) * 2 - 1;
-      mouseRef.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseRef.current.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
 
       if (isDraggingRef.current) {
         const deltaX = e.clientX - lastMouseXRef.current;
@@ -61,28 +75,11 @@ const Video3DCarousel = () => {
       }
     };
 
-    const handleMouseDown = (e) => {
-      isDraggingRef.current = true;
-      lastMouseXRef.current = e.clientX;
-      canvas.style.cursor = "grabbing";
-    };
-
-    const handleMouseUp = () => {
-      isDraggingRef.current = false;
-      canvas.style.cursor = "grab";
-    };
-
-    const handleWheel = (e) => {
-      e.preventDefault();
-      targetRotationRef.current += e.deltaY * 0.001;
-    };
-
-    canvas.addEventListener("mousemove", handleMouseMove);
     canvas.addEventListener("mousedown", handleMouseDown);
-    canvas.addEventListener("mouseup", handleMouseUp);
-    canvas.addEventListener("mouseleave", handleMouseUp);
-    canvas.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("mouseup", handleMouseUp);
+    canvas.addEventListener("mousemove", handleMouseMove);
 
+    // Draw video function
     const drawTransformedVideo = (
       video,
       x,
@@ -99,10 +96,8 @@ const Video3DCarousel = () => {
 
       const perspective = 1200;
       const angleRad = rotationY;
-
       const halfW = width / 2;
       const halfH = height / 2;
-
       const cos = Math.cos(angleRad);
       const sin = Math.sin(angleRad);
 
@@ -146,38 +141,23 @@ const Video3DCarousel = () => {
 
       ctx.transform(dX1 / width, dY1 / width, dX2 / height, dY2 / height, px1, py1);
 
-      if (video.readyState >= 2) {
-        ctx.drawImage(video, 0, 0, width, height);
-      } else {
+      if (video.readyState >= 2) ctx.drawImage(video, 0, 0, width, height);
+      else {
         ctx.fillStyle = "#1a1a1a";
         ctx.fillRect(0, 0, width, height);
       }
 
       ctx.restore();
-
-      ctx.save();
-      ctx.globalAlpha = opacity;
-      ctx.strokeStyle = Math.abs(rotationY) < 0.3 ? "#fff" : "rgba(255,255,255,0.4)";
-      ctx.lineWidth = Math.abs(rotationY) < 0.3 ? 3 : 1;
-      ctx.beginPath();
-      ctx.moveTo(px1, py1);
-      ctx.lineTo(px2, py2);
-      ctx.lineTo(px3, py3);
-      ctx.lineTo(px4, py4);
-      ctx.closePath();
-      ctx.stroke();
-      ctx.restore();
     };
 
     const animate = () => {
-      ctx.fillStyle = "#0a0a0a";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       rotationRef.current += (targetRotationRef.current - rotationRef.current) * 0.1;
 
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const baseRadius = Math.min(canvas.width, canvas.height) * 0.45;
+      const baseRadius = Math.min(canvas.width, canvas.height) * 0.35;
 
       const videoData = videos
         .map((v) => {
@@ -192,16 +172,11 @@ const Video3DCarousel = () => {
           const depth = normalizedAngle / Math.PI;
           const rotationY = -angle;
 
-          return {
-            ...v,
-            angle,
-            x3d,
-            z3d,
-            depth,
-            rotationY
-          };
+          return { ...v, angle, x3d, z3d, depth, rotationY };
         })
         .sort((a, b) => a.z3d - b.z3d);
+
+      const scaleFactor = Math.min(canvas.width, canvas.height) / 800;
 
       videoData.forEach(({ element, x3d, depth, rotationY }) => {
         const scale = 0.7 + (1 - depth) * 0.3;
@@ -209,24 +184,15 @@ const Video3DCarousel = () => {
         const y = centerY;
 
         const attractionStrength = (1 - depth) * 0.5;
-        const dx = mouseRef.current.x * 120 * attractionStrength;
-        const dy = mouseRef.current.y * 80 * attractionStrength;
+        const dx = mouseRef.current.x * 120 * attractionStrength * scaleFactor;
+        const dy = mouseRef.current.y * 80 * attractionStrength * scaleFactor;
 
-        const width = 500 * scale;
-        const height = 280 * scale;
+        const width = 500 * scale * scaleFactor;
+        const height = 280 * scale * scaleFactor;
         const opacity = 0.4 + (1 - depth) * 0.6;
 
         drawTransformedVideo(element, x, y, width, height, rotationY, opacity, dx, dy);
       });
-
-      ctx.fillStyle = "rgba(255,255,255,0.8)";
-      ctx.font = "15px sans-serif";
-      ctx.textAlign = "center";
-      ctx.fillText(
-        "Drag or scroll to rotate • Move mouse to attract videos",
-        centerX,
-        canvas.height - 30
-      );
 
       animationId = requestAnimationFrame(animate);
     };
@@ -235,12 +201,11 @@ const Video3DCarousel = () => {
 
     return () => {
       cancelAnimationFrame(animationId);
+      resizeObserver.disconnect();
       window.removeEventListener("resize", resize);
-      canvas.removeEventListener("mousemove", handleMouseMove);
       canvas.removeEventListener("mousedown", handleMouseDown);
-      canvas.removeEventListener("mouseup", handleMouseUp);
-      canvas.removeEventListener("mouseleave", handleMouseUp);
-      canvas.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("mouseup", handleMouseUp);
+      canvas.removeEventListener("mousemove", handleMouseMove);
 
       videos.forEach((v) => {
         v.element.pause();
@@ -250,11 +215,11 @@ const Video3DCarousel = () => {
   }, []);
 
   return (
-    <div className="w-full h-screen bg-black overflow-hidden relative">
+    <div ref={containerRef} className="carousel-wrapper" style={{ position: "relative" }}>
       <canvas
         ref={canvasRef}
-        className="w-full h-full"
-        style={{ cursor: "grab" }}
+        className="carousel-canvas"
+        style={{ cursor: "grab", pointerEvents: "auto", display: "block", width: "100%", height: "100%" }}
       />
     </div>
   );
