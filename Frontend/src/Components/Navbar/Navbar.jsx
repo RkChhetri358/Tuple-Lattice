@@ -13,21 +13,26 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="navcenter">
-        <ul className="navbar-menu">
-          <li>
-            <NavLink to="/layout/dashboard" className={({ isActive }) => isActive ? "active" : ""}>
-              Dashboard
-            </NavLink>
-          </li>
-          <li>
-  <NavLink
-    to="/asset"
-    className={({ isActive }) => (isActive ? "active" : "")}
-  >
-    Assets
-  </NavLink>
-</li>
+  <div className="navcenter">
+    <ul className="navbar-menu">
+      <li>
+        <NavLink  to="/layout/dashboard"
+  className={({ isActive }) => (isActive ? "active" : "")}>
+          Dashboard
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/layout/assets" className={({ isActive }) => (isActive ? "active" : "")}>
+          Assets
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/layout/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+          Profile
+        </NavLink>
+      </li>
+    </ul>
+  </div>
 
           <li>
             <NavLink to="/layout/profile" className={({ isActive }) => isActive ? "active" : ""}>

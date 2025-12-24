@@ -11,8 +11,8 @@ import Profile from "./components/Profile/Profile";
 
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
-import AddAsset from "./components/AddAsset/AddAsset";
-import Asset from "./components/Asset/Asset";
+// import AddAsset from "./components/AddAsset/AddAsset";
+import Assets from "./Components/Assets/Assets";
 
 function App() {
   return (
@@ -30,7 +30,7 @@ function App() {
           <Route index element={<Dashboard />} />            
           <Route path="dashboard" element={<Dashboard />} /> 
          
-          <Route path="addasset" element={<AddAsset />} />
+          <Route path="assets" element={<Assets />} />
           <Route path="profile" element={<Profile />} />
        
         </Route>
