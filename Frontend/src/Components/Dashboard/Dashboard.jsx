@@ -15,7 +15,7 @@ export default function Dashboard() {
 
 
     <div className="dashboard-container">
-      hello
+      hello Rachit
     </div>
     </>
   );
