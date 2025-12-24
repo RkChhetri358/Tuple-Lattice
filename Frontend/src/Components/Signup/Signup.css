@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+>>>>>>> 9a2f13eac61292fb4e6449cc7d84500943712797
 
 .signup-container {
   min-height: 100vh;
@@ -32,7 +36,11 @@
   gap: 18px;
 }
 
+<<<<<<< HEAD
 /* .form-group {
+=======
+.form-group {
+>>>>>>> 9a2f13eac61292fb4e6449cc7d84500943712797
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -56,7 +64,11 @@
 
 .form-group input:focus {
   border-color: #000;
+<<<<<<< HEAD
 } */
+=======
+}
+>>>>>>> 9a2f13eac61292fb4e6449cc7d84500943712797
 
 .password-wrapper {
   position: relative;

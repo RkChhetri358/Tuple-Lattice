@@ -1,3 +1,124 @@
+.profile-page {
+  padding: 40px;
+  background: #f9fafb;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Top Section */
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+/* Balance Card */
+.balance-card {
+  background: #ff2e2e;
+  color: white;
+  padding: 25px;
+  border-radius: 14px;
+  width: 260px;
+}
+
+.balance-title {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.balance-card h2 {
+  margin: 8px 0;
+}
+
+.pending {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* User Info */
+.user-info {
+  max-width: 260px;
+  text-align: left;
+}
+
+.profile-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.user-info h4 {
+  margin: 0;
+}
+
+.verified {
+  font-size: 12px;
+  color: gray;
+}
+
+.user-info small {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #555;
+}
+
+/* Revenue Card */
+.revenue-card {
+  background: #dbeafe;
+  padding: 25px;
+  border-radius: 18px;
+  max-width: 520px;
+}
+
+.revenue-card h3 {
+  margin-bottom: 20px;
+}
+
+.revenue-item {
+  margin-bottom: 18px;
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.bar {
+  background: #e5e7eb;
+  height: 6px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 6px 0;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.red {
+  background: #ff2e2e;
+  color: #ff2e2e;
+}
+
+.orange {
+  background: #f97316;
+  color: #f97316;
+}
+
+.gray {
+  background: #6b7280;
+  color: #6b7280;
+}
+
+.note {
+  font-size: 11px;
+  color: #555;
+  margin-top: 10px;
 .login-container {  
   /* border: 2px solid red; */
   min-height: 100vh;

@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import "./Signup.css";
+<<<<<<< HEAD
 import { Link } from "react-router-dom";
+=======
+
+>>>>>>> 9a2f13eac61292fb4e6449cc7d84500943712797
 const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
@@ -96,9 +100,15 @@ const Signup = () => {
         {/* LOGIN LINK */}
         <div className="login-link">
           Already have an account?{" "}
+<<<<<<< HEAD
          
             <Link to="/login"  onClick={() => alert("Redirect to Login page")}>Login</Link>
           
+=======
+          <span onClick={() => alert("Redirect to Login page")}>
+            Login
+          </span>
+>>>>>>> 9a2f13eac61292fb4e6449cc7d84500943712797
         </div>
 
         {/* TERMS */}
