@@ -28,7 +28,7 @@ const Navbar = () => {
 
           <li>
             <NavLink
-              to="/layout/assets"
+              to="/layout/asset"
               className={({ isActive }) => (isActive ? "active" : "")}
             >
               Assets
