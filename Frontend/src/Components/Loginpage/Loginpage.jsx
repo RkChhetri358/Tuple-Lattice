@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./Loginpage.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -9,16 +10,72 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
+
+   const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate("/layout/dashboard"); // change to "/home" if needed
-  };
+
+
+  // For artist
+
+    //   useEffect(() => {
+    //     const storedUser = localStorage.getItem("artist");
+    //     if (storedUser) {
+    //         const user = JSON.parse(storedUser);
+    //         if (user.admin_or_not) {
+    //             navigate('/firstpage');
+    //         }
+    //     }
+    // }, [navigate]);
+
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        // try {
+        //     const response = await axios.post("http://localhost:8000/api/login/", {
+        //         email,
+        //         password,
+        //     });
+    
+        //     if (response.status === 200) {
+        //         const userData = {
+        //             email: response.data.email,
+        //             aartist_or_not: response.data.artist_or_not,
+        //             firstName: response.data.first_name,  // Save first name here
+        //         };
+        //         localStorage.setItem("artist", JSON.stringify(userData));
+    
+        //         if (response.data.admin_or_not) {
+        //             navigate('/firstpage');
+        //         } else {
+        //             navigate('/addEvent');
+        //         }
+        //     }
+        // } catch (error) {
+        //     console.error("Error:", error.response || error.message);
+        //     if (error.response) {
+        //         alert(`Error: ${error.response.data.error || "Invalid credentials"}`);
+        //     } else if (error.request) {
+        //         alert("No response from server. Please try again later.");
+        //     } else {
+        //         alert(`Error: ${error.message}`);
+        //     }
+        // }
+        navigate('/layout/dashboard');
+
+
+    };
+    
+
+
+
+
+
 
   /* 🔐 SOCIAL LOGIN REDIRECTS */
   const googleLogin = () => {
@@ -114,4 +171,14 @@ const Login = () => {
   </button>
 </div>
     
-        {/* SIGNUP */} <div className="signup-link"> Don’t have an account?{" "} <span onClick={() => alert("Redirect to Sign Up page")}>Sign up</span> </div> <div className="terms-condition"> By continuing, you agree to UTA's <span>Terms of Use</span> and <span>Privacy Policy</span> </div> </div> </div> ); }; export default Login;
+        {/* SIGNUP */} <div className="signup-link"> Don’t have an account?{" "} 
+          <Link to="/signup"> <span onClick={() => alert("Redirect to Sign Up page")}>Sign up</span> </Link>
+           </div>
+          <div className="terms-condition"> By continuing, you agree to UTA's 
+            <span>Terms of Use</span> and <span>Privacy Policy</span> 
+            </div> 
+            </div> 
+            </div> 
+            ); }; 
+        
+        export default Login;

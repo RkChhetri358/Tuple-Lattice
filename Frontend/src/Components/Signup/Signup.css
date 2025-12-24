@@ -1,4 +1,4 @@
-
+/* Container */
 .signup-container {
   min-height: 100vh;
   display: flex;
@@ -7,16 +7,23 @@
   background: url("/loginBG.png") no-repeat center center;
   background-size: cover;
   font-family: "Raleway", sans-serif;
+  padding: 20px; /* for small screens */
+  box-sizing: border-box;
 }
 
+/* Card */
 .signup-card {
-  width: 390px;
+  width: 100%;
+  max-width: 400px; /* flexible max width */
   background: #fff;
   border-radius: 16px;
-  padding: 32px 28px;
+  padding: 32px 28px 40px 28px; /* bottom padding included */
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
+/* Header */
 .signup-header {
   text-align: center;
   margin-bottom: 28px;
@@ -24,40 +31,19 @@
 
 .logo {
   width: 90px;
+  max-width: 80%;
+  height: auto;
 }
 
+/* Form */
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+  padding-bottom: 20px; /* extra bottom padding */
 }
 
-/* .form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-weight: 600;
-}
-
-.form-group input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 13px 16px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.2s ease;
-  font-family: "Raleway", sans-serif;
-}
-
-.form-group input:focus {
-  border-color: #000;
-} */
-
+/* Password toggle */
 .password-wrapper {
   position: relative;
 }
@@ -71,6 +57,7 @@
   opacity: 0.6;
 }
 
+/* Button */
 .signup-btn {
   margin-top: 12px;
   background: #000;
@@ -81,12 +68,14 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  width: 100%;
 }
 
 .signup-btn:hover {
   opacity: 0.85;
 }
 
+/* Links */
 .login-link {
   margin-top: 22px;
   text-align: center;
@@ -117,4 +106,43 @@
   color: #000;
   font-weight: 600;
   cursor: pointer;
+}
+
+/* Responsive for smaller devices */
+@media (max-width: 768px) {
+  .signup-card {
+    padding: 28px 20px 36px 20px;
+  }
+
+  .signup-form {
+    gap: 14px;
+    padding-bottom: 16px;
+  }
+
+  .signup-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-card {
+    width: 100%;
+    margin: 0 10px;
+    padding: 24px 16px 32px 16px;
+  }
+
+  .signup-header {
+    margin-bottom: 20px;
+  }
+
+  .signup-form {
+    gap: 12px;
+    padding-bottom: 12px;
+  }
+
+  .signup-btn {
+    padding: 12px;
+    font-size: 13px;
+  }
 }

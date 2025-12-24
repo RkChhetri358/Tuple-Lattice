@@ -13,6 +13,7 @@ import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 // import AddAsset from "./components/AddAsset/AddAsset";
 import Assets from "./Components/Assets/Assets";
+import AddAsset from "./Components/AddAsset/AddAsset";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/addasset" element={<AddAsset />} />
 
        
         <Route path="/layout" element={<Layout />}>
