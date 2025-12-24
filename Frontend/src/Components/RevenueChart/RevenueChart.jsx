@@ -1,3 +1,4 @@
+import React from "react";
 import {
   LineChart,
   Line,
@@ -19,37 +20,26 @@ const data = [
 
 export default function RevenueChart() {
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        data={data}
-        margin={{ top: 20, right: 20, left: 40, bottom: 10 }}
-      >
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+<ResponsiveContainer width="100%" height={260}>
+  <LineChart
+    data={data}
+    margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
+  >
+    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
+    <YAxis tickFormatter={(value) => `Rs ${value / 1000}k`} tick={{ fontSize: 12 }} width={60} />
+    <Tooltip formatter={(value) => [`Rs ${value}`, "Revenue"]} />
+    <Line
+      type="linear"
+      dataKey="revenue"
+      stroke="#ff2d2d"
+      strokeWidth={3}
+      dot={{ r: 3 }}
+      activeDot={{ r: 5 }}
+    />
+  </LineChart>
+</ResponsiveContainer>
 
-        <XAxis
-          dataKey="month"
-          tick={{ fontSize: 12 }}
-        />
 
-        <YAxis
-          tickFormatter={(value) => `Rs ${value / 1000}k`}
-          tick={{ fontSize: 12 }}
-          width={60}
-        />
-
-        <Tooltip
-          formatter={(value) => [`Rs ${value}`, "Revenue"]}
-        />
-
-        <Line
-          type="monotone"
-          dataKey="revenue"
-          stroke="#ff2d2d"
-          strokeWidth={3}
-          dot={{ r: 3 }}
-          activeDot={{ r: 5 }}
-        />
-      </LineChart>
-    </ResponsiveContainer>
   );
 }
