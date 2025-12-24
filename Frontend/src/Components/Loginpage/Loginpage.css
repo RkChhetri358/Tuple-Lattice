@@ -119,4 +119,210 @@
   font-size: 11px;
   color: #555;
   margin-top: 10px;
+.login-container {  
+  /* border: 2px solid red; */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("/loginBG.png") no-repeat center center;
+  background-size: cover;
+  font-family: "Raleway", sans-serif;
+}
+
+.login-card {
+  /* border: 2px solid red; */
+
+  width: 390px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
+  font-family: "Raleway", sans-serif;
+}
+
+.login-header {
+  /* border: 2px solid red; */
+
+  text-align: center;
+  margin-bottom: 28px;
+  font-family: "Raleway", sans-serif;
+}
+
+.logo {
+  /* border: 2px solid red; */
+
+  width: 90px;
+}
+
+.login-form {
+  /* border: 2px solid red; */
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  font-family: "Raleway", sans-serif;
+}
+
+.form-group {
+  /* border: 2px solid red;   */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  /* border: 2px solid red; */
+
+  font-family: "Raleway", sans-serif;
+  font-weight: 800;
+}
+
+.form-group input {
+  width: 100%;
+ 
+  padding: 10px 14px;
+  border: none;   
+       
+  background-color: #f0f0f0;
+
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  font-family: "Raleway", sans-serif;
+}
+
+/* Placeholder color */
+.form-group input::placeholder {
+  color: #a6a6a6;
+}
+
+/* Focus state */
+.form-group input:focus {
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.forgot-password {
+  text-align: center;
+  font-size: 13px;
+  color: #292828;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.forgot-password:hover {
+  opacity: 0.8;
+}
+
+.login-btn {
+  margin-top: 12px;
+  background: #000;
+  color: #fff;
+  padding: 10px 0;            /* shorter button */
+  border-radius: 25px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;           /* bolder text */
+  cursor: pointer;
+  font-family: "Raleway", sans-serif;
+}
+
+.login-btn:hover {
+  opacity: 0.85;
+}
+
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 24px 0;
+  font-size: 13px;
+  color: #888;
+  font-family: "Raleway", sans-serif;
+}
+
+.divider span {
+  background: #fff;
+  padding: 0 10px;
+  position: relative;
+  z-index: 1;
+  font-family: "Raleway", sans-serif;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  background: #ddd;
+  z-index: 0;
+}
+
+.social-login {
+  display: flex;
+  gap: 12px;
+}
+
+.social-btn {
+  flex: 1;
+  padding: 12px 0;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background: #827979;
+}
+
+.signup-link {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 13px;
+  font-family: "Raleway", sans-serif;
+}
+
+.signup-link span {
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.signup-link span:hover {
+  opacity: 0.8;
+}
+
+.terms-condition {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+  line-height: 1.5;
+  padding: 0 10px;
+}
+
+.terms-condition span {
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
 }
