@@ -7,41 +7,46 @@ import "./Navbar.css";
 const Navbar = () => {
   return (
     <nav className="navbar-container">
+      {/* LEFT */}
       <div className="navleft">
         <div className="nav-logo">
           <img src="/UTA.png" alt="UTA Logo" />
         </div>
       </div>
 
-  <div className="navcenter">
-    <ul className="navbar-menu">
-      <li>
-        <NavLink  to="/layout/dashboard"
-  className={({ isActive }) => (isActive ? "active" : "")}>
-          Dashboard
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/layout/assets" className={({ isActive }) => (isActive ? "active" : "")}>
-          Assets
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/layout/profile" className={({ isActive }) => (isActive ? "active" : "")}>
-          Profile
-        </NavLink>
-      </li>
-    </ul>
-  </div>
+      {/* CENTER */}
+      <div className="navcenter">
+        <ul className="navbar-menu">
+          <li>
+            <NavLink
+              to="/layout/dashboard"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Dashboard
+            </NavLink>
+          </li>
 
           <li>
-            <NavLink to="/layout/profile" className={({ isActive }) => isActive ? "active" : ""}>
+            <NavLink
+              to="/layout/assets"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              Assets
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink
+              to="/layout/profile"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
               Profile
             </NavLink>
           </li>
         </ul>
       </div>
 
+      {/* RIGHT */}
       <div className="navright">
         <div className="nav-search">
           <input type="text" placeholder="Search..." />
