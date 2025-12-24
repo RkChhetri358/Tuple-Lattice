@@ -1,9 +1,4 @@
-.indexcontainer {
-  min-height: 100vh;
-  background: url("/bg.png") no-repeat center center;
-  background-size: cover;
-}
 
-.contentpart {
-  padding-top: 80px; /* adjust based on navbar height */
+.layout-navbar{
+  background: url("/bg.png") no-repeat center center;
 }
