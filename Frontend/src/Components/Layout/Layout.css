@@ -1,4 +1,4 @@
-.indexcontainer {
+.layout-container {
   min-height: 100vh;
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
@@ -6,4 +6,19 @@
 
 .contentpart {
   padding-top: 80px; /* adjust based on navbar height */
+}
+
+
+
+.layout-navbar {
+  background: transparent;
+  transition: 0.3s ease;
+  position: fixed;
+  width: 100%;
+  z-index: 20;
+}
+
+.layout-navbar.transparent {
+  background: transparent !important;
+  box-shadow: none !important;
 }
