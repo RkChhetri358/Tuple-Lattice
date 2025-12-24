@@ -17,8 +17,8 @@ export default function Navbar() {
         <ul className="navbar-menu">
           <li>
             <NavLink
-              to="/"
-              className={({ isActive }) => (isActive ? "active" : "")}
+               to="/layout/dashboard"
+  className={({ isActive }) => (isActive ? "active" : "")}
             >
               DASHBOARD
             </NavLink>
