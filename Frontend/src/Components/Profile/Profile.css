@@ -1,0 +1,153 @@
+.profile-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding-top: 120px; /* navbar offset */
+  
+
+ background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  box-sizing: border-box;
+}
+
+/* GRID */
+.profile-grid {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 80px;
+}
+
+/* LEFT */
+.left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.balance-card {
+  background: #ff2d2d;
+  color: white;
+  border-radius: 28px;
+  padding: 40px 30px 26px; 
+  width: 550px;
+  height: 200px;
+}
+
+.balance-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 25px;
+   font-family: "Raleway", sans-serif;
+}
+
+.balance-amount {
+  font-size: 45px;
+  margin: 0px 0 8px;
+    font-family: "Raleway", sans-serif;
+}
+
+.pending-text {
+  font-size: 18px;
+  text-align: right;
+  padding-right: 40px;
+  opacity: 0.85;
+    font-family: "Raleway", sans-serif;
+}
+
+.chart-box {
+    /* border: 2px solid red; */
+  width: 520px;
+  height: 260px;
+  background: white;
+  border-radius: 18px;
+  padding: 14px 16px 10px; /* 👈 important */
+  box-sizing: border-box;
+}
+
+
+/* RIGHT */
+.right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.profile-row {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.profile-row img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-text p {
+    font-family: "Raleway", sans-serif;
+  font-size: 15px;
+  color: #000000;
+  max-width: 240px;
+}
+
+.profile-text h3 {
+  margin: 20px 0 2px;
+    font-family: "Raleway", sans-serif;
+}
+
+.profile-text span {
+  font-size: 15px;
+  color: #999;
+    font-family: "Raleway", sans-serif;
+}
+
+/* REVENUE */
+.revenue-card {
+  background: #e3f0ff;
+  border-radius: 26px;
+  padding: 26px;
+  width: 420px;
+  margin-left: 40px; /* matches reference offset */
+}
+
+.revenue-card h2 {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.rev-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bar {
+  height: 6px;
+  background: white;
+  border-radius: 6px;
+}
+
+.bar div {
+  height: 100%;
+  background: #ff2d2d;
+  border-radius: 6px;
+}
+
+.right {
+  font-size: 12px;
+  text-align: right;
+}
+
+
+
+
+
+/* 
+
+ background: url("/bg.png") no-repeat center center;
+  background-size: cover; */
