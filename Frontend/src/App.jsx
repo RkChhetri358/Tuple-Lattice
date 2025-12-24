@@ -12,8 +12,9 @@ import Profile from "./components/Profile/Profile";
 import Layout from "./components/Layout/Layout";
 import Home from "./components/Home/Home";
 // import AddAsset from "./components/AddAsset/AddAsset";
-import Assets from "./Components/Assets/Assets";
+
 import AddAsset from "./Components/AddAsset/AddAsset";
+import Asset from "./Components/Asset/Asset";
 
 function App() {
   return (
@@ -31,7 +32,9 @@ function App() {
           <Route index element={<Dashboard />} />            
           <Route path="dashboard" element={<Dashboard />} /> 
          
-          <Route path="assets" element={<Assets />} />
+          <Route path="asset" element={<Asset/>} />
+          
+
           <Route path="profile" element={<Profile />} />
        
         </Route>

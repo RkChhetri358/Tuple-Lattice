@@ -1,17 +1,21 @@
 import "./Profile.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
+import RevenueChart from "../RevenueChart/RevenueChart";
+
 export default function Profile() {
   return (
     <div className="profile-container">
       <div className="profile-grid">
+
         {/* LEFT COLUMN */}
         <div className="left-col">
+
+          {/* BALANCE CARD */}
           <div className="balance-card">
             <div className="balance-top">
               <span>Total Balance</span>
               <span className="wallet-icon">
-                {" "}
                 <FontAwesomeIcon icon={faWallet} />
               </span>
             </div>
@@ -20,13 +24,22 @@ export default function Profile() {
             <p className="pending-text">pending Rs. 0.0</p>
           </div>
 
-          <div className="chart-box" />
+          {/* CHART CARD */}
+          <div className="chart-box">
+            <RevenueChart />
+          </div>
+
         </div>
 
         {/* RIGHT COLUMN */}
         <div className="right-col">
+
           <div className="profile-row">
-            <img src="/profile.png" className="profile-img" alt="artist" />
+            <img
+              src="/profile.png"
+              className="profile-img"
+              alt="artist"
+            />
             <div className="profile-text">
               <p>
                 “I share my work here with clear ownership, fair value, and
@@ -70,7 +83,9 @@ export default function Profile() {
               </span>
             </div>
           </div>
+
         </div>
+
       </div>
     </div>
   );

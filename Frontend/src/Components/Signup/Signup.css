@@ -1,4 +1,6 @@
-/* Container */
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+
 .signup-container {
   min-height: 100vh;
   display: flex;
@@ -43,7 +45,7 @@
   padding-bottom: 20px; /* extra bottom padding */
 }
 
-/* Password toggle */
+
 .password-wrapper {
   position: relative;
 }

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Loginpage.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {
@@ -10,72 +10,65 @@ const Login = () => {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-
-   const [error, setError] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Uncomment and use this if you want to auto-redirect logged-in users
+  /*
+  useEffect(() => {
+    const storedUser = localStorage.getItem("artist");
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      if (user.admin_or_not) {
+        navigate('/firstpage');
+      }
+    }
+  }, [navigate]);
+  */
 
-
-  // For artist
-
-    //   useEffect(() => {
-    //     const storedUser = localStorage.getItem("artist");
-    //     if (storedUser) {
-    //         const user = JSON.parse(storedUser);
-    //         if (user.admin_or_not) {
-    //             navigate('/firstpage');
-    //         }
-    //     }
-    // }, [navigate]);
-
-
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        // try {
-        //     const response = await axios.post("http://localhost:8000/api/login/", {
-        //         email,
-        //         password,
-        //     });
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     
-        //     if (response.status === 200) {
-        //         const userData = {
-        //             email: response.data.email,
-        //             aartist_or_not: response.data.artist_or_not,
-        //             firstName: response.data.first_name,  // Save first name here
-        //         };
-        //         localStorage.setItem("artist", JSON.stringify(userData));
-    
-        //         if (response.data.admin_or_not) {
-        //             navigate('/firstpage');
-        //         } else {
-        //             navigate('/addEvent');
-        //         }
-        //     }
-        // } catch (error) {
-        //     console.error("Error:", error.response || error.message);
-        //     if (error.response) {
-        //         alert(`Error: ${error.response.data.error || "Invalid credentials"}`);
-        //     } else if (error.request) {
-        //         alert("No response from server. Please try again later.");
-        //     } else {
-        //         alert(`Error: ${error.message}`);
-        //     }
-        // }
-        navigate('/layout/dashboard');
+    try {
+      // Uncomment this to use real API login
+      /*
+      const response = await axios.post("http://localhost:8000/api/login/", {
+        email: formData.username,
+        password: formData.password,
+      });
 
+      if (response.status === 200) {
+        const userData = {
+          email: response.data.email,
+          artist_or_not: response.data.artist_or_not,
+          firstName: response.data.first_name,
+        };
+        localStorage.setItem("artist", JSON.stringify(userData));
 
-    };
-    
-
-
-
-
-
+        if (response.data.admin_or_not) {
+          navigate('/firstpage');
+        } else {
+          navigate('/addEvent');
+        }
+      }
+      */
+      // Temporary navigation for testing
+      navigate('/layout/dashboard');
+    } catch (err) {
+      console.error("Error:", err.response || err.message);
+      if (err.response) {
+        setError(err.response.data.error || "Invalid credentials");
+      } else if (err.request) {
+        setError("No response from server. Please try again later.");
+      } else {
+        setError(err.message);
+      }
+    }
+  };
 
   /* 🔐 SOCIAL LOGIN REDIRECTS */
   const googleLogin = () => {
@@ -98,6 +91,8 @@ const Login = () => {
         </div>
 
         <form className="login-form" onSubmit={handleSubmit}>
+          {error && <p className="error-msg">{error}</p>}
+
           <div className="form-group">
             <label>Username or email</label>
             <input
@@ -128,14 +123,7 @@ const Login = () => {
             </div>
           </div>
 
-        
-
-
-
-
-          <div className="forgot-password">
-            Forgot Password
-          </div>
+          <div className="forgot-password">Forgot Password</div>
 
           <button className="login-btn" type="submit">
             Login
@@ -145,40 +133,36 @@ const Login = () => {
         <div className="divider">
           <span>or continue with</span>
         </div>
-      <div className="social-login">
-  <button className="social-btn" onClick={googleLogin}>
-    <img
-      src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-      alt="Google"
-      height="20"
-    />
-  </button>
 
-  <button className="social-btn" onClick={facebookLogin}>
-    <img
-      src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
-      alt="Facebook"
-      height="20"
-    />
-  </button>
+        <div className="social-login">
+          <button className="social-btn" onClick={googleLogin}>
+            <img
+              src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
+              alt="Google"
+              height="20"
+            />
+          </button>
 
-  <button className="social-btn" onClick={discordLogin}>
-    <img
-      src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png"
-      alt="Discord"
-      height="20"
-    />
-  </button>
-</div>
-    
-        {/* SIGNUP */} <div className="signup-link"> Don’t have an account?{" "} 
-          <Link to="/signup"> <span onClick={() => alert("Redirect to Sign Up page")}>Sign up</span> </Link>
-           </div>
-          <div className="terms-condition"> By continuing, you agree to UTA's 
-            <span>Terms of Use</span> and <span>Privacy Policy</span> 
-            </div> 
-            </div> 
-            </div> 
-            ); }; 
-        
-        export default Login;
+          <button className="social-btn" onClick={facebookLogin}>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/0/05/Facebook_Logo_%282019%29.png"
+              alt="Facebook"
+              height="20"
+            />
+          </button>
+
+          <button className="social-btn" onClick={discordLogin}>
+            <img
+              src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png"
+              alt="Discord"
+              height="20"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
+

@@ -3,6 +3,8 @@ import "./Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+
+
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -125,7 +127,13 @@ const Signup = () => {
 
         <div className="login-link">
           Already have an account?{" "}
+
           <Link to="/login">Login</Link>
+
+         
+            <Link to="/login"  onClick={() => alert("Redirect to Login page")}>Login</Link>
+          
+
         </div>
 
         <div className="terms-condition">
