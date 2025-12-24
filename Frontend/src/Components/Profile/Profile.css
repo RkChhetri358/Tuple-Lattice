@@ -1,8 +1,10 @@
 .profile-container {
   width: 100vw;
   min-height: 100vh;
-  padding-top: 120px;
-  background: url("/bg.png") no-repeat center center;
+  padding-top: 120px; /* navbar offset */
+  
+
+ background: url("/bg.png") no-repeat center center;
   background-size: cover;
   box-sizing: border-box;
 }
@@ -16,7 +18,7 @@
   gap: 80px;
 }
 
-/* LEFT COLUMN */
+/* LEFT */
 .left-col {
   display: flex;
   flex-direction: column;
@@ -27,9 +29,8 @@
   background: #ff2d2d;
   color: white;
   border-radius: 28px;
-  padding: 40px 30px 26px;
-  width: 100%;
-  max-width: 550px;
+  padding: 40px 30px 26px; 
+  width: 550px;
   height: 200px;
 }
 
@@ -37,37 +38,35 @@
   display: flex;
   justify-content: space-between;
   font-size: 25px;
-  font-family: "Raleway", sans-serif;
+   font-family: "Raleway", sans-serif;
 }
 
 .balance-amount {
   font-size: 45px;
-  margin: 0 0 6px;
-  font-family: "Raleway", sans-serif;
+  margin: 0px 0 8px;
+    font-family: "Raleway", sans-serif;
 }
 
 .pending-text {
   font-size: 18px;
   text-align: right;
-  padding-right: 30px;
+  padding-right: 40px;
   opacity: 0.85;
-  font-family: "Raleway", sans-serif;
+    font-family: "Raleway", sans-serif;
 }
 
-/* CHART */
 .chart-box {
-  width: 100%;
-  max-width: 600px;
+    /* border: 2px solid red; */
+  width: 520px;
   height: 260px;
   background: white;
   border-radius: 18px;
-  padding: 0; /* remove padding */
-  display: flex; /* important for ResponsiveContainer */
+  padding: 14px 16px 10px; /* 👈 important */
+  box-sizing: border-box;
 }
 
 
-
-/* RIGHT COLUMN */
+/* RIGHT */
 .right-col {
   display: flex;
   flex-direction: column;
@@ -80,7 +79,7 @@
   align-items: center;
 }
 
-.profile-img {
+.profile-row img {
   width: 200px;
   height: 200px;
   border-radius: 50%;
@@ -88,31 +87,32 @@
 }
 
 .profile-text p {
+    font-family: "Raleway", sans-serif;
   font-size: 15px;
-  color: #000;
+  color: #000000;
   max-width: 240px;
-  font-family: "Raleway", sans-serif;
 }
 
 .profile-text h3 {
-  margin: 18px 0 2px;
-  font-family: "Raleway", sans-serif;
+  margin: 20px 0 2px;
+    font-family: "Raleway", sans-serif;
 }
 
 .profile-text span {
-  font-size: 14px;
+  font-size: 15px;
   color: #999;
-  font-family: "Raleway", sans-serif;
+    font-family: "Raleway", sans-serif;
 }
 
-/* REVENUE DISTRIBUTION */
+/* REVENUE */
 .revenue-card {
-  background: #e3f0ff;
+ background: white;
+    font-family: "Raleway", sans-serif;
+
   border-radius: 26px;
   padding: 26px;
-  width: 100%;
-  max-width: 420px;
-  margin-left: 0;
+  width: 420px;
+  margin-left: 40px; /* matches reference offset */
 }
 
 .revenue-card h2 {
@@ -125,26 +125,27 @@
   grid-template-columns: 1fr 2fr auto;
   align-items: center;
   gap: 12px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
 }
 
 .bar {
-  height: 12px;
-  background: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
+  height: 6px;
+  background: rgb(243, 242, 242);
+  border-radius: 6px;
 }
 
-.bar-fill {
+.bar div {
   height: 100%;
-  background: linear-gradient(90deg, #ff2d2d, #ff6b6b);
-  border-radius: 8px;
-  width: 0%; /* starts at 0 for animation */
-  transition: width 1.2s ease-in-out;
+  background: #ff2d2d;
+  border-radius: 6px;
 }
 
 .right {
-  font-size: 13px;
-  line-height: 1.2;
+  font-size: 15px;
   text-align: right;
+    font-family: "Raleway", sans-serif;
+  
+}
+.rev-title{
+    font-weight: 700;
 }

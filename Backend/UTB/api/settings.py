@@ -1,0 +1,4 @@
+WEB3_PROVIDER = "https://polygon-mumbai.infura.io/v3/YOUR_KEY"
+CONTRACT_ADDRESS = "0xB4401D8b05959564c8D2e83F69D83d6Bc2b0C744"
+ADMIN_WALLET = "0xAdminWallet"
+ADMIN_PRIVATE_KEY = "0xYourPrivateKey"

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   LineChart,
   Line,
@@ -20,15 +19,29 @@ const data = [
 
 export default function RevenueChart() {
   return (
-<ResponsiveContainer width="100%" height={260}>
+    <ResponsiveContainer width="100%" height="100%">
   <LineChart
     data={data}
-    margin={{ top: 20, right: 20, left: 0, bottom: 0 }}
+    margin={{ top: 20, right: 20, left: 40, bottom: 10 }}
   >
     <CartesianGrid strokeDasharray="3 3" vertical={false} />
-    <XAxis dataKey="month" tick={{ fontSize: 12 }} />
-    <YAxis tickFormatter={(value) => `Rs ${value / 1000}k`} tick={{ fontSize: 12 }} width={60} />
-    <Tooltip formatter={(value) => [`Rs ${value}`, "Revenue"]} />
+
+    <XAxis
+      dataKey="month"
+      tick={{ fontSize: 12, fontFamily: "Raleway, sans-serif" }}
+    />
+
+    <YAxis
+      tickFormatter={(value) => `Rs ${value / 1000}k`}
+      tick={{ fontSize: 12, fontFamily: "Raleway, sans-serif" }}
+      width={60}
+    />
+
+    <Tooltip
+      contentStyle={{ fontFamily: "Raleway, sans-serif" }}
+      formatter={(value) => [`Rs ${value}`, "Revenue"]}
+    />
+
     <Line
       type="linear"
       dataKey="revenue"
@@ -39,7 +52,6 @@ export default function RevenueChart() {
     />
   </LineChart>
 </ResponsiveContainer>
-
 
   );
 }
