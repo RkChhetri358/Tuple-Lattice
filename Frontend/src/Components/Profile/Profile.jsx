@@ -39,13 +39,13 @@ export default function Profile() {
               src="/profile.png"
               className="profile-img"
               alt="artist"
-            />
+            />  
             <div className="profile-text">
               <p>
                 “I share my work here with clear ownership, fair value, and
                 respect for the creative process.”
               </p>
-              <h3>Suresh Gupa</h3>
+              <h3>Arun Yadav</h3>
               <span>verified artist</span>
             </div>
           </div>
