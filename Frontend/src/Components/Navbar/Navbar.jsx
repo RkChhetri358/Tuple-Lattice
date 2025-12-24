@@ -22,7 +22,7 @@ const Navbar = () => {
         </NavLink>
       </li>
       <li>
-        <NavLink to="/layout/addasset" className={({ isActive }) => (isActive ? "active" : "")}>
+        <NavLink to="/layout/assets" className={({ isActive }) => (isActive ? "active" : "")}>
           Assets
         </NavLink>
       </li>
