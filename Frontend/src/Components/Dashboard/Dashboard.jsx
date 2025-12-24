@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Dashboard.css";
-import Video3DCarousel from "../Carousel/Video3DCarousel ";
-
+import Video3DCarousel from "../Carousel/Video3DCarousel";
 
 export default function Dashboard() {
   useEffect(() => {
@@ -11,7 +10,37 @@ export default function Dashboard() {
     };
   }, []);
 
-    
+  const stats = [
+    { label: "releases", value: 3 },
+    { label: "reach", value: 4200 },
+    { label: "sales", value: 2000 },
+  ];
+
+  const [counts, setCounts] = useState(stats.map(() => 0));
+
+  useEffect(() => {
+    let animationFrame;
+    const duration = 1500; // 1.5s
+    const startTime = performance.now();
+
+    const animate = (time) => {
+      const progress = Math.min((time - startTime) / duration, 1);
+
+      const newCounts = stats.map((stat) =>
+        Math.floor(stat.value * progress)
+      );
+      setCounts(newCounts);
+
+      if (progress < 1) {
+        animationFrame = requestAnimationFrame(animate);
+      }
+    };
+
+    animationFrame = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrame);
+  }, []);
+
   return (
     <div className="dashboard-container">
       <section className="welcome-section">
@@ -19,28 +48,20 @@ export default function Dashboard() {
         <h1 className="welcome-name">
           Mr. Yadav<span>,</span>
         </h1>
-        <p className="welcome-role">
-          Senior Musician | Writer | Creator
-        </p>
+        <p className="welcome-role">Senior Musician | Writer | Creator</p>
       </section>
-      
+
       <div className="dashboardmiddle">
-          <Video3DCarousel/>
+        <Video3DCarousel />
       </div>
-      
+
       <section className="stats-section">
-        <div className="stat-item">
-          <h2>3</h2>
-          <p>releases</p>
-        </div>
-        <div className="stat-item">
-          <h2>4.2k</h2>
-          <p>reach</p>
-        </div>
-        <div className="stat-item">
-          <h2>2k</h2>
-          <p>sales</p>
-        </div>
+        {stats.map((stat, idx) => (
+          <div className="stat-item" key={idx}>
+            <h2>{counts[idx] >= 1000 ? `${(counts[idx]/1000).toFixed(1)}k` : counts[idx]}</h2>
+            <p>{stat.label}</p>
+          </div>
+        ))}
       </section>
     </div>
   );
