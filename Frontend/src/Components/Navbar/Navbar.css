@@ -89,6 +89,7 @@
 
 /* ================= SEARCH ================= */
 .nav-search {
+  padding-right: 20px;
   position: relative;
   width: 250px; /* adjust width */
 }

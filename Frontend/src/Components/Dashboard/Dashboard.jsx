@@ -43,13 +43,13 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <section className="welcome-section">
+      <sec  tion className="welcome-section">
         <p className="welcome-text">Welcome</p>
         <h1 className="welcome-name">
           Mr. Yadav<span>,</span>
         </h1>
         <p className="welcome-role">Senior Musician | Writer | Creator</p>
-      </section>
+      </sec>
 
       <div className="dashboardmiddle">
         <Video3DCarousel />
