@@ -76,25 +76,28 @@
 }
 
 .profile-row img {
-  width: 96px;
-  height: 96px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .profile-text p {
+    font-family: "Raleway", sans-serif;
   font-size: 13px;
   color: #555;
   max-width: 240px;
 }
 
-.profile-text h4 {
-  margin: 6px 0 2px;
+.profile-text h3 {
+  margin: 20px 0 2px;
+    font-family: "Raleway", sans-serif;
 }
 
 .profile-text span {
-  font-size: 12px;
+  font-size: 15px;
   color: #999;
+    font-family: "Raleway", sans-serif;
 }
 
 /* REVENUE */
