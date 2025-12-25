@@ -8,6 +8,8 @@
   font-family: "Raleway", sans-serif;
 }
 
+
+
 /* HEADER */
 .assets-header {
   display: flex;
@@ -107,9 +109,12 @@
   gap: 6px;
 }
 
-.form-group.full {
-  flex: 2;
+.no-underline {
+  text-decoration: none;
+  color: inherit;
 }
+
+
 
 .form-group input,
 .form-group select,
@@ -188,4 +193,26 @@
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
   padding-top: 80px;
+}
+
+
+
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+
+.confirm-row input[type="checkbox"] {
+  accent-color: #ff2d2d;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.confirm-row label {
+  cursor: pointer;
 }
