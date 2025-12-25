@@ -48,7 +48,7 @@ export default function SellingAsset() {
 
   const handleResaleListing = async () => {
     if (!sellChecked) {
-      alert("Please confirm the resale checkbox.");
+      alert("Please confirm the listing checkbox.");
       return;
     }
     if (!priceWei) {
@@ -91,7 +91,7 @@ export default function SellingAsset() {
           <FiArrowLeft className="back-arrow" size={24} />
         </Link>
         <h2 className="assets-title">
-          <strong>RESALE</strong> <span>asset</span>
+          <strong>LIST</strong> <span>asset</span>
         </h2>
       </div>
 
@@ -159,7 +159,7 @@ export default function SellingAsset() {
                 checked={sellChecked} 
                 onChange={(e) => setSellChecked(e.target.checked)} 
             />
-            <span>I confirm I want to list this asset for resale.</span>
+            <span>I confirm I want to list this asset.</span>
           </div>
 
           <button 
@@ -167,7 +167,7 @@ export default function SellingAsset() {
             onClick={handleResaleListing} 
             disabled={loading}
           >
-            {loading ? "LISTING ON BLOCKCHAIN..." : "CONFIRM RESALE"}
+            {loading ? "LISTING ON BLOCKCHAIN..." : "CONFIRM LISTING"}
           </button>
         </div>
       </div>

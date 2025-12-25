@@ -9,7 +9,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate
 
 from .models import Artwork, Listing,User
-from .blockchain import mint_art_artist, primary_sale, list_for_resale, buy_resale,w3
+from .blockchain import mint_art_artist, primary_sale, list_for_resale, buy_resale,w3,ensure_marketplace_approval
 from .serializers import ArtworkSerializer,ListingSerializer
 
 # --- FUNCTION BASED VIEW (Decorators) ---
@@ -20,34 +20,31 @@ from .serializers import ArtworkSerializer,ListingSerializer
 @permission_classes([AllowAny]) 
 def mint_art_api(request):
     try:
-        # 1. Get both files (the asset and the thumbnail)
         file_obj = request.FILES.get('file') 
-        cover_obj = request.FILES.get('cover_image') # New line
+        cover_obj = request.FILES.get('cover_image')
         data = request.data
+        private_key = data.get("private_key") # Extract key
         
         if not file_obj:
             return Response({"error": "No asset file uploaded"}, status=400)
 
-        # 2. Blockchain Minting
-        # Added cover_obj to the parameters
+        # --- ADDED: Ensure Approval on Mint ---
+        ensure_marketplace_approval(private_key)
+
         token_id = mint_art_artist(
-            private_key=data.get("private_key"),
+            private_key=private_key,
             royalty=int(data.get("royalty")),
             primary_price=int(data.get("primary_price")),
             title=data.get("title"),
             description=data.get("description"),
             file_obj=file_obj,
-            cover_obj=cover_obj  # New parameter passed to blockchain.py
+            cover_obj=cover_obj
         )
 
-        # 3. Fetch and Respond
         artwork = Artwork.objects.get(token_id=token_id)
-
         return Response({
             "token_id": token_id, 
-            "file_url": artwork.file.url,
-            "cover_url": artwork.cover_image.url if artwork.cover_image else None, # New
-            "status": "Minted and Saved Successfully"
+            "status": "Minted and Approved Successfully"
         }, status=201)
         
     except Exception as e:
@@ -62,36 +59,37 @@ class PrimaryPurchase(APIView):
     def post(self, request):
         try:
             data = request.data
-            # 1. Execute on Blockchain
+            token_id = data.get("token_id")
+            
+            # 1. Fetch the Artwork to find the Artist
+            artwork = Artwork.objects.get(token_id=token_id)
+            artist_user = artwork.artist # This is the person who must approve
+            
+            # NOTE: For existing tokens 1 & 2 to work, the Artist must have 
+            # called setApprovalForAll. In your production app, this happens 
+            # automatically in the Minting view now.
+            
+            # 2. Execute on Blockchain
             receipt = primary_sale(
-                token_id=data.get("token_id"),
-                private_key=data.get("private_key"),
+                token_id=token_id,
+                private_key=data.get("private_key"), # Buyer's Key
                 distributor_address=data.get("distributor_address"),
                 price=data.get("price")
             )
             
-            # 2. Update Database (If blockchain succeeded)
             if receipt['status'] == 1:
-                artwork = Artwork.objects.get(token_id=data.get("token_id"))
-                
-                # Identify the buyer
+                # ... rest of your database update logic ...
                 buyer_address = data.get("distributor_address")
                 buyer_user, _ = User.objects.get_or_create(
                     wallet_address__iexact=buyer_address,
                     defaults={'username': f"Collector_{buyer_address[:6]}", 'role': 'user'}
                 )
 
-                # UPDATE THE OWNER
                 artwork.owner = buyer_user
                 artwork.save()
 
-                # Record the historical sale in Listings (optional but good for history)
-                Listing.objects.create(
-                    artwork=artwork,
-                    seller=artwork.artist,
-                    price=float(data.get("price")) / 10**18,
-                    active=False # It's not active because it's already sold
-                )
+                # Close any active listing for this token
+                Listing.objects.filter(artwork=artwork, active=True).update(active=False)
 
                 return Response({
                     "status": "Primary purchase complete", 
@@ -99,7 +97,7 @@ class PrimaryPurchase(APIView):
                     "tx_hash": receipt['transactionHash'].hex()
                 })
             else:
-                return Response({"error": "Blockchain transaction failed"}, status=400)
+                return Response({"error": "Blockchain transaction failed. Likely missing Artist Approval."}, status=400)
 
         except Exception as e:
             return Response({"error": str(e)}, status=400)
@@ -111,28 +109,29 @@ class ListForResale(APIView):
     def post(self, request):
         try:
             data = request.data
-            # 1. Blockchain Transaction
+            private_key = data.get("private_key")
+
+            # --- ADDED: Ensure Approval before Listing ---
+            ensure_marketplace_approval(private_key)
+
             receipt = list_for_resale(
                 token_id=data.get("token_id"),
-                private_key=data.get("private_key"),
+                private_key=private_key,
                 price=data.get("price")
             )
 
-            # 2. Update DB Listing
             artwork = Artwork.objects.get(token_id=data.get("token_id"))
-            
-            # The seller is the current owner of the artwork
             seller = artwork.owner 
 
             Listing.objects.update_or_create(
                 artwork=artwork,
                 defaults={
-                    "seller": seller, # <--- ADD THIS LINE
+                    "seller": seller,
                     "price": float(data.get("price")) / 10**18, 
                     "active": True
                 }
             )
-            return Response({"status": "Resale listed", "tx_hash": receipt['transactionHash'].hex()})
+            return Response({"status": "Resale listed & Approved", "tx_hash": receipt['transactionHash'].hex()})
         except Exception as e:
             return Response({"error": str(e)}, status=400)
 

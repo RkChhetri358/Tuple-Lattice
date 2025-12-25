@@ -17,7 +17,6 @@ export default function Asset() {
   useEffect(() => {
     document.body.classList.add("has-transparent-navbar");
 
-    // 1. Get Logged in User info from localStorage
     const storedUser = JSON.parse(localStorage.getItem("user"));
     setUser(storedUser);
 
@@ -28,14 +27,13 @@ export default function Asset() {
       }
 
       try {
-        // 2. Fetch Active Listings (Marketplace) with ROLE FILTERING
-        // This ensures Distributors see Artists and Users see Distributors
+        // 1. Fetch Marketplace with Role Filter
         const listingsRes = await axios.get(
           `http://127.0.0.1:8000/api/active-listings/?role=${storedUser.role}`
         );
         setActiveListings(listingsRes.data);
 
-        // 3. Fetch Wallet Activity (Your Creations & Collection)
+        // 2. Fetch Wallet Activity
         const walletRes = await axios.get(
           `http://127.0.0.1:8000/api/wallet-activity/${storedUser.wallet}/`
         );
@@ -59,19 +57,17 @@ export default function Asset() {
 
   return (
     <div className="assets-page">
-      {/* 4. Only show "ADD ASSETS" if user is an Artist */}
+      {/* MINT BUTTON FOR ARTISTS */}
       {user?.role === "artist" && (
         <div className="add-assets-wrapper">
           <button className="add-assets-btn" onClick={handleAddasset}>
-            <span className="plus">
-              <FontAwesomeIcon icon={faPlus} />
-            </span>{" "}
+            <span className="plus"><FontAwesomeIcon icon={faPlus} /></span>{" "}
             ADD assets
           </button>
         </div>
       )}
 
-      {/* YOUR CREATIONS & COLLECTION Section */}
+      {/* SECTION: YOUR INVENTORY */}
       <section className="section">
         <h2 className="section-title">YOUR CREATIONS & COLLECTION</h2>
         <div className="grid-3">
@@ -92,7 +88,7 @@ export default function Asset() {
         </div>
       </section>
 
-      {/* ASSETS FOR SALE (Filtered Marketplace) */}
+      {/* SECTION: MARKETPLACE */}
       <section className="section">
         <h2 className="section-title">Assets for Sale</h2>
         {activeListings.length > 0 ? (
@@ -101,10 +97,13 @@ export default function Asset() {
               <SmallAsset 
                 key={listing.id}
                 title={listing.artwork_details.title} 
-                // ETH to NPR conversion logic (Assuming 1 ETH = 500,000 NPR)
                 price={`Rs. ${Math.round(parseFloat(listing.price) * 500000).toLocaleString()}`} 
                 imageUrl={listing.artwork_details.cover_url} 
                 sellerName={listing.seller_name}
+                // Identification only, no disabling
+                isOwnListing={listing.seller_name === user?.username}
+                // Navigation to Buying page for everyone
+                onClick={() => navigate("/layout/buyingasset", { state: { listing: listing } })}
               />
             ))}
           </Carousel>
@@ -118,7 +117,7 @@ export default function Asset() {
   );
 }
 
-/* ---------- COMPONENTS ---------- */
+/* ---------- REUSABLE COMPONENTS ---------- */
 
 const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
   <div className="asset-card" onClick={onClick} style={{ cursor: 'pointer' }}>
@@ -127,7 +126,7 @@ const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
     </div>
     <div className="asset-info">
       <h4>{title}</h4>
-      <p className="owner-name" style={{ color: "#888", fontSize: "0.9rem", margin: "5px 0" }}>
+      <p className="owner-name" style={{ color: "#888", fontSize: "0.85rem", margin: "4px 0" }}>
         Owner: {ownerName}
       </p>
       <span className="price" style={{ fontWeight: "bold", color: "#e63946" }}>
@@ -137,10 +136,15 @@ const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
   </div>
 );
 
-const SmallAsset = ({ title, price, imageUrl, sellerName }) => (
-  <div className="small-asset-card">
+const SmallAsset = ({ title, price, imageUrl, sellerName, onClick, isOwnListing }) => (
+  <div 
+    className="small-asset-card" 
+    onClick={onClick} 
+    style={{ cursor: "pointer" }}
+  >
     <div className="small-img">
       <img src={imageUrl || "/placeholder.png"} alt={title} />
+      {isOwnListing && <div className="own-badge">Your Listing</div>}
     </div>
     <div className="small-asset-info">
         <h5>{title}</h5>
@@ -166,15 +170,13 @@ const Carousel = ({ children }) => {
 
   return (
     <div className="carousel-wrappers">
-      <button className="carousel-btn left" onClick={() => scroll("left")} aria-label="Scroll Left">
+      <button className="carousel-btn left" onClick={() => scroll("left")}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      
       <div className="carousel-container" ref={scrollRef}>
         {children}
       </div>
-
-      <button className="carousel-btn right" onClick={() => scroll("right")} aria-label="Scroll Right">
+      <button className="carousel-btn right" onClick={() => scroll("right")}>
         <FontAwesomeIcon icon={faChevronRight} />
       </button>
     </div>
