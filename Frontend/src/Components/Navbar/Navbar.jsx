@@ -1,14 +1,39 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const location = useLocation(); // get current route
+  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    if (location.pathname === "/layout/asset") {
+      const container = document.querySelector(".assets-page");
+
+      const handleScroll = () => {
+        if (container) {
+          setScrolled(container.scrollTop > 50); // threshold
+        }
+      };
+
+      if (container) {
+        container.addEventListener("scroll", handleScroll);
+      }
+
+      return () => {
+        if (container) {
+          container.removeEventListener("scroll", handleScroll);
+        }
+      };
+    } else {
+      setScrolled(false); // transparent on other pages
+    }
+  }, [location.pathname]);
 
   return (
-    <nav className="navbar-container">
+    <nav className={`navbar-container ${scrolled ? "scrolled" : ""}`}>
       {/* LEFT */}
       <div className="navleft">
         <div className="nav-logo">
@@ -50,7 +75,6 @@ const Navbar = () => {
 
       {/* RIGHT */}
       <div className="navright">
-        {/* Only show search bar on /layout/asset */}
         {location.pathname === "/layout/asset" && (
           <div className="nav-search">
             <input type="text" placeholder="Search..." />
