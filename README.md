@@ -16,12 +16,12 @@ The project follows a middleware-based approach where Django acts as a secure br
 
 Ensure you have Python 3.9+ installed.
 
-    Clone the repository and navigate to the root directory.
+Clone the repository and navigate to the root directory.
 
-    Install dependencies:
+Install dependencies:
     Bash
 
-pip install -r requirements.txt
+    pip install -r requirements.txt
 
 Environment Configuration: Create a .env file in the root or update your settings.py with:
 
