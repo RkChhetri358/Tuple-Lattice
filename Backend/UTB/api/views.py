@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, authentication_classes
 from rest_framework.permissions import AllowAny
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 from .models import Artwork, Listing,User
 from .blockchain import mint_art_artist, primary_sale, list_for_resale, buy_resale,w3
@@ -182,3 +183,22 @@ class ArtworkListView(APIView):
         serializer = ArtworkSerializer(artworks, many=True, context={'request': request})
         
         return Response(serializer.data)
+    
+class WalletActivityView(APIView):
+    authentication_classes = []
+    permission_classes = [AllowAny]
+
+    def get(self, request, wallet_address):
+        # We look for artworks where the wallet is EITHER the artist OR the current owner
+        artworks = Artwork.objects.filter(
+            Q(artist__wallet_address__iexact=wallet_address) | 
+            Q(owner__wallet_address__iexact=wallet_address)
+        ).distinct().order_by('-id')
+
+        serializer = ArtworkSerializer(artworks, many=True, context={'request': request})
+        
+        return Response({
+            "wallet": wallet_address,
+            "count": artworks.count(),
+            "artworks": serializer.data
+        })
