@@ -8,7 +8,10 @@ import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+<<<<<<< HEAD
     const navigate = useNavigate();
+=======
+>>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
 
   useEffect(() => {
     if (location.pathname === "/layout/asset") {
@@ -34,17 +37,24 @@ const Navbar = () => {
     }
   }, [location.pathname]);
 
+<<<<<<< HEAD
 const handlenavigate=()=>{
    localStorage.clear();
    navigate('/home');
 }
 
+=======
+>>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
   return (
     <nav className={`navbar-container ${scrolled ? "scrolled" : ""}`}>
       {/* LEFT */}
       <div className="navleft">
         <div className="nav-logo">
+<<<<<<< HEAD
           <img src="/UTA.png" alt="UTA Logo" onClick={handlenavigate} />
+=======
+          <img src="/UTA.png" alt="UTA Logo" />
+>>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
         </div>
       </div>
 

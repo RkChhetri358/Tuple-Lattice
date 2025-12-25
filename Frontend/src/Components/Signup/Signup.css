@@ -10,7 +10,11 @@ body {
 
 /* Page Container */
 .signup-container {
+<<<<<<< HEAD
   height: 100vh;
+=======
+  height: 100%;
+>>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
   width: 100%;
   display: flex;
   justify-content: center;
@@ -123,6 +127,7 @@ body {
 /* IE & old Edge */
 .signup-form {
   -ms-overflow-style: none;
+<<<<<<< HEAD
 }
 
 
@@ -132,4 +137,6 @@ body {
   color: #161616;
   letter-spacing: 1px;
   font-family: "Raleway", sans-serif;
+=======
+>>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
 }
