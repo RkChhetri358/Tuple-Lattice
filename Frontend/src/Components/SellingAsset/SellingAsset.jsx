@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios"; 
-import "./AddAsset.css";
+
 import { Link } from "react-router-dom";
+import { FiArrowLeft, FiUploadCloud, FiPlus, FiMinus } from "react-icons/fi"; // Correct import
+
 export default function SellingAsset() {
 
   useEffect(() => {
@@ -17,31 +19,29 @@ export default function SellingAsset() {
   const [price, setPrice] = useState(""); 
   const [royalty, setRoyalty] = useState(5.0);
   const [privateKey, setPrivateKey] = useState("");
-  
   const [assetFile, setAssetFile] = useState(null); 
   const [coverImage, setCoverImage] = useState(null); 
   const [preview, setPreview] = useState(null); 
   const [loading, setLoading] = useState(false);
 
+  const [npr, setNpr] = useState("");
+  const ETH_PRICE_NPR = 500000;
 
-const [npr, setNpr] = useState("");     // input NPR
-const ETH_PRICE_NPR = 500000; // Example: 1 ETH = 300,000 NPR
+  const [sellChecked, setSellChecked] = useState(false);
 
-const handlePriceChange = (e) => {
-  const nprValue = e.target.value;
-  setNpr(nprValue);
+  const handlePriceChange = (e) => {
+    const nprValue = e.target.value;
+    setNpr(nprValue);
 
-  if (!nprValue) {
-    setPrice("");
-    return;
-  }
+    if (!nprValue) {
+      setPrice("");
+      return;
+    }
 
-  const eth = nprValue / ETH_PRICE_NPR;
-  const wei = BigInt(Math.floor(eth * 1e18));
-
-  setPrice(wei.toString());
-};
-
+    const eth = nprValue / ETH_PRICE_NPR;
+    const wei = BigInt(Math.floor(eth * 1e18));
+    setPrice(wei.toString());
+  };
 
   const increaseRoyalty = () => {
     if (royalty < 20) setRoyalty((prev) => +(prev + 1).toFixed(1));
@@ -60,6 +60,11 @@ const handlePriceChange = (e) => {
   };
 
   const handleMint = async () => {
+    if (!sellChecked) {
+      alert("Please confirm you want to sell this asset.");
+      return;
+    }
+
     if (!assetFile || !coverImage || !privateKey || !price || !title) {
       alert("Please fill in all fields (Title, Price, Key, and both Files).");
       return;
@@ -68,21 +73,22 @@ const handlePriceChange = (e) => {
     setLoading(true);
 
     const formData = new FormData();
-    formData.append("file", assetFile);         
-    formData.append("cover_image", coverImage); 
+    formData.append("file", assetFile);
+    formData.append("cover_image", coverImage);
     formData.append("title", title);
     formData.append("description", description);
     formData.append("private_key", privateKey);
-    formData.append("royalty", Math.floor(royalty * 100)); // Basis points (5% = 500)
-    formData.append("primary_price", price); 
+    formData.append("royalty", Math.floor(royalty * 100));
+    formData.append("primary_price", price);
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/mint/", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/mint/",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       alert(`Success! Minted Token ID: ${response.data.token_id}`);
-      // Optional: Reset form or redirect here
     } catch (error) {
       console.error("Minting Error:", error.response?.data || error.message);
       alert("Error: " + (error.response?.data?.error || "Transaction failed"));
@@ -92,25 +98,26 @@ const handlePriceChange = (e) => {
   };
 
   return (  
-   <div className="assets-container">
-<div className="assets-header">
-  <Link to="/layout/asset" className="no-underline">
-    <span className="back-arrow">←</span>
-  </Link>
+    <div className="assets-container">
 
-  <h2 className="assets-title">
-    <strong>SELLING</strong> <span>assets</span>
-  </h2>
-</div>
+      <div className="assets-header">
+        <Link to="/layout/asset" className="no-underline">
+          <FiArrowLeft className="back-arrow" size={24} />
+        </Link>
+
+        <h2 className="assets-title">
+          <strong>SELLING</strong> <span>assets</span>
+        </h2>
+      </div>
 
       <div className="assets-card">
+
         {/* THUMBNAIL PREVIEW */}
         <div className="asset-image-box">
           <label className="image-placeholder">
-            {preview ? <img src={preview} alt="preview" /> : <span>＋</span>}
-            <input type="file" hidden accept="image/*" readOnly={true} onChange={handleCoverUpload} />
+            {preview ? <img src={preview} alt="preview" /> : <FiPlus size={40} />}
+            <input type="file" hidden accept="image/*" onChange={handleCoverUpload} />
           </label>
-          
         </div>
 
         <div className="asset-form">
@@ -122,7 +129,7 @@ const handlePriceChange = (e) => {
               <input 
                 value={title} 
                 onChange={(e) => setTitle(e.target.value)} 
-                placeholder="Title of the artwork"  readOnly={true}
+                placeholder="Title of the artwork"
               />
             </div>
           </div>
@@ -134,15 +141,15 @@ const handlePriceChange = (e) => {
                 type="password"
                 value={privateKey}
                 onChange={(e) => setPrivateKey(e.target.value)}
-                placeholder="0x..." readOnly={true}
+                placeholder="0x..."
               />
             </div>
+
             <div className="form-group">
               <label>Upload Asset</label>
               <input 
                 type="file" 
-                onChange={(e) => setAssetFile(e.target.files[0]) } 
-                readOnly={true}
+                onChange={(e) => setAssetFile(e.target.files[0]) }
               />
             </div>
           </div>
@@ -153,36 +160,38 @@ const handlePriceChange = (e) => {
               <textarea 
                 value={description} 
                 onChange={(e) => setDescription(e.target.value)} 
-                placeholder="Describe your asset..." readOnly={true}
+                placeholder="Describe your asset..."
               />
             </div>
-              <div className="form-group">
-  <label>Price (Rs)</label>
-  <input
-    type="number"
-    value={npr}
-    onChange={handlePriceChange}
-    placeholder="Rs"
-  />
-</div>
 
+            <div className="form-group">
+              <label>Price (Rs)</label>
+              <input
+                type="number"
+                value={npr}
+                onChange={handlePriceChange}
+                placeholder="Rs"
+              />
+            </div>
           </div>
 
           <div className="form-row">
-        
             <div className="form-group">
               <label>Resale Royalty Rate</label>
               <div className="royalty-box">
-                <button onClick={decreaseRoyalty}>−</button>
+                <button onClick={decreaseRoyalty}><FiMinus /></button>
                 <span>{royalty}%</span>
-                <button onClick={increaseRoyalty}>+</button>
+                <button onClick={increaseRoyalty}><FiPlus /></button>
               </div>
+           
+           
             </div>
+           
           </div>
 
           <div className="confirm-row">
             <input type="checkbox" />
-            <span>I confirm I own the rights to this work</span>
+            <span>Do you want to sell this Asset?</span>
           </div>
 
           <button 
@@ -195,5 +204,5 @@ const handlePriceChange = (e) => {
         </div>
       </div>
     </div>
-  )
+  );
 }
