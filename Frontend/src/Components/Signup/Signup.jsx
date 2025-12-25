@@ -10,14 +10,8 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-<<<<<<< HEAD
-    wallet: "",
-    privateAddress: "",
-    role: "user", // 👈 default role
-=======
     wallet_address: "", // Updated to match Django model
     role: "user",
->>>>>>> 44c70842e6f047090fa0cbcf3df7ba3b1b947024
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -60,15 +54,9 @@ const Signup = () => {
         <form className="signup-form" onSubmit={handleSubmit}>
           {/* ROLE SELECTION */}
           <div className="form-group">
-<<<<<<< HEAD
-            <label>Choose Role</label>
-            <div className="role-options">
-              <label>
-=======
             <label>I am a...</label>
             <div className="role-options">
               <label className={formData.role === "artist" ? "active" : ""}>
->>>>>>> 44c70842e6f047090fa0cbcf3df7ba3b1b947024
                 <input
                   type="radio"
                   name="role"
@@ -79,11 +67,7 @@ const Signup = () => {
                 Artist
               </label>
 
-<<<<<<< HEAD
-              <label>
-=======
               <label className={formData.role === "distributor" ? "active" : ""}>
->>>>>>> 44c70842e6f047090fa0cbcf3df7ba3b1b947024
                 <input
                   type="radio"
                   name="role"
@@ -94,11 +78,7 @@ const Signup = () => {
                 Distributor
               </label>
 
-<<<<<<< HEAD
-              <label>
-=======
               <label className={formData.role === "user" ? "active" : ""}>
->>>>>>> 44c70842e6f047090fa0cbcf3df7ba3b1b947024
                 <input
                   type="radio"
                   name="role"
@@ -106,11 +86,7 @@ const Signup = () => {
                   checked={formData.role === "user"}
                   onChange={handleChange}
                 />
-<<<<<<< HEAD
-                User
-=======
                 Collector
->>>>>>> 44c70842e6f047090fa0cbcf3df7ba3b1b947024
               </label>
             </div>
           </div>
