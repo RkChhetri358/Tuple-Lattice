@@ -25,7 +25,7 @@ export default function Asset() {
 
       {/* YOUR CREATIONS */}
       <section className="section">
-        <h2 className="section-title">YOUR CREATIONS</h2>
+        <h2 className="section-title">YOUR ASSETS</h2>
         <div className="grid-3">
           <AssetCard title="ROCK N ROLL - 2013" description="Music" price="Rs. 4000" imageUrl="/1.png" />
           <AssetCard title="Shadow in Dark - 2020" description="Art" price="Rs. 2000" imageUrl="/2.png" />
