@@ -3,10 +3,12 @@ import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
+    const navigate = useNavigate();
 
   useEffect(() => {
     if (location.pathname === "/layout/asset") {
@@ -32,12 +34,17 @@ const Navbar = () => {
     }
   }, [location.pathname]);
 
+const handlenavigate=()=>{
+   localStorage.clear();
+   navigate('/home');
+}
+
   return (
     <nav className={`navbar-container ${scrolled ? "scrolled" : ""}`}>
       {/* LEFT */}
       <div className="navleft">
         <div className="nav-logo">
-          <img src="/UTA.png" alt="UTA Logo" />
+          <img src="/UTA.png" alt="UTA Logo" onClick={handlenavigate} />
         </div>
       </div>
 
