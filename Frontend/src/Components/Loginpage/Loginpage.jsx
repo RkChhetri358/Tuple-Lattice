@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Loginpage.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -135,7 +136,16 @@ const Login = () => {
           <button className="social-btn" onClick={discordLogin}>
             <img src="https://cdn-icons-png.flaticon.com/512/2111/2111370.png" alt="Discord" height="20" />
           </button>
+          
         </div>
+
+          <div className="signup-link"> Don’t have an account?<Link to="/signup"> Sign up</Link>
+           </div> 
+           <div className="terms-condition">
+             By continuing, you agree to UTA's
+              <span>Terms of Use</span> 
+              and <span>Privacy Policy</span> 
+              </div>
       </div>
     </div>
   );
