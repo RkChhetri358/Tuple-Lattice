@@ -1,10 +1,12 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
 
 const Navbar = () => {
+  const location = useLocation(); // get current route
+
   return (
     <nav className="navbar-container">
       {/* LEFT */}
@@ -48,10 +50,13 @@ const Navbar = () => {
 
       {/* RIGHT */}
       <div className="navright">
-        <div className="nav-search">
-          <input type="text" placeholder="Search..." />
-          <FontAwesomeIcon icon={faSearch} className="search-icon" />
-        </div>
+        {/* Only show search bar on /layout/asset */}
+        {location.pathname === "/layout/asset" && (
+          <div className="nav-search">
+            <input type="text" placeholder="Search..." />
+            <FontAwesomeIcon icon={faSearch} className="search-icon" />
+          </div>
+        )}
       </div>
     </nav>
   );
