@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.css";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const location = useLocation(); // get current route
+  const location = useLocation();
+  const [scrolled, setScrolled] = useState(false);
+    const navigate = useNavigate();
+
+  useEffect(() => {
+    if (location.pathname === "/layout/asset") {
+      const container = document.querySelector(".assets-page");
+
+      const handleScroll = () => {
+        if (container) {
+          setScrolled(container.scrollTop > 50); // threshold
+        }
+      };
+
+      if (container) {
+        container.addEventListener("scroll", handleScroll);
+      }
+
+      return () => {
+        if (container) {
+          container.removeEventListener("scroll", handleScroll);
+        }
+      };
+    } else {
+      setScrolled(false); // transparent on other pages
+    }
+  }, [location.pathname]);
+
+const handlenavigate=()=>{
+   localStorage.clear();
+   navigate('/home');
+}
 
   return (
-    <nav className="navbar-container">
+    <nav className={`navbar-container ${scrolled ? "scrolled" : ""}`}>
       {/* LEFT */}
       <div className="navleft">
         <div className="nav-logo">
-          <img src="/UTA.png" alt="UTA Logo" />
+          <img src="/UTA.png" alt="UTA Logo" onClick={handlenavigate} />
         </div>
       </div>
 
@@ -50,7 +82,6 @@ const Navbar = () => {
 
       {/* RIGHT */}
       <div className="navright">
-        {/* Only show search bar on /layout/asset */}
         {location.pathname === "/layout/asset" && (
           <div className="nav-search">
             <input type="text" placeholder="Search..." />

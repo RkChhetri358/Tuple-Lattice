@@ -1,246 +1,313 @@
-/* ------------------------- */
-/* ASSET PAGE MAIN WRAPPER */
-/* ------------------------- */
-.asset-page {
-  height: calc(100vh - 90px); /* full viewport minus navbar */
-  overflow-y: auto;           /* scroll only inside Asset page */
-  padding: 2rem 5rem;
+/* --- Global Resets --- */
+* {
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .asset-page {
-    padding: 2rem 2.5rem;
-  }
+/* --- Main Page Container --- */
+.assets-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 140px 100px 80px;
+  background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  font-family: "Raleway", sans-serif;
 }
 
-/* ------------------------- */
-/* ADD ASSETS BUTTON */
-/* ------------------------- */
-.add-assets-btn-wrapper {
+/* --- Global Image Fix --- */
+.asset-img img,
+.small-img img,
+.artist-img img,
+.popular-img img,
+.trend-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+.red-most{
+  /* border: 2px solid red; */
+  color: #ff0000;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+
+}
+
+/* ========== CAROUSEL SYSTEM ========== */
+.carousel-wrappers {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
+  margin: 0 40px;
+  overflow: visible;
+}
+
+.carousel-infinite-window {
+  width: 100%;
+  overflow: hidden;
+  padding: 15px 0;
+  /* Removed click-to-drag cursor */
+  cursor: default !important; 
+}
+
+.carousel-infinite-track {
+  display: flex;
+  /* Reduced gap between items to make them look more connected */
+  gap: 15px; 
+  will-change: transform;
+}
+
+.carousel-item-fixed {
+  /* Precisely fits 4 items per view with the 15px gap */
+  flex: 0 0 calc(25% - 11.25px); 
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  pointer-events: auto;
+}
+
+.carousel-item-fixed:hover {
+  transform: scale(1.03);
+  z-index: 2;
+}
+
+/* ========== CAROUSEL BUTTONS ========== */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  background: red;
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.carousel-btn.left {
+  left: 0;
+}
+
+.carousel-btn.right {
+  right: 0;
+}
+
+.carousel-btn:hover {
+  background: #ff0000;
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* ========== ASSETS FOR SALE (Smaller Images) ========== */
+.small-asset-card {
+  text-align: left;
+}
+
+.small-img {
+  width: 100%;
+  /* Reduced from 200px to 140px for a more compact marketplace look */
+  height: 140px; 
+  border-radius: 14px;
+  background: #ccc;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+
+.small-asset-card h5 {
+  font-size: 14px;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ========== ARTISTS (Tight Layout) ========== */
+.artist {
+  text-align: center;
+}
+
+.artist-img {
+  /* Slightly smaller circles to reduce overall footprint */
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 auto 8px;
+  overflow: hidden;
+  border: 3px solid white;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.artist h5 {
+  font-size: 15px;
+  margin-bottom: 2px;
+  font-weight: 600;
+}
+
+.artist span {
+  font-size: 12px;
+  color: #666;
+}
+
+/* ========== YOUR CREATIONS (Grid) ========== */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.asset-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.asset-card:hover {
+  transform: translateY(-5px);
+}
+
+.asset-img {
+  flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  border-radius: 18px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+/* ========== SECTIONS & TITLES ========== */
+.section {
+  margin-bottom: 80px;
+  overflow: visible !important;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.section-title-large {
+  font-size: 36px;
+  margin-bottom: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.section-title.right,
+.section-title-large.right {
+  display: flex;
+  
+  text-align: right;
+}
+
+.red {
+  color: red;
+}
+
+/* ========== POPULAR & TRENDING ========== */
+.popular-card {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  transition: transform 0.3s ease;
+}
+
+.popular-img {
+  flex-shrink: 0;
+  width: 140px;
+  height: 140px;
+  border-radius: 22px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+.trending-row {
+  display: grid;
+  grid-template-columns: 80px 100px 1fr;
+  align-items: center;
+  gap: 25px;
+  padding: 30px 20px;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+.rank {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+}
+
+.trend-img {
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+/* ========== BUTTONS & FOOTER ========== */
+.add-assets-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 80px;
 }
 
 .add-assets-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background-color: var(--foreground);
-  color: var(--card);
-  padding: 0.75rem 2rem;
-  border-radius: 9999px;
-  font-weight: 600;
+  background: black;
+  color: white;
   border: none;
+  border-radius: 40px;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.add-assets-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-}
-
-.add-assets-btn__icon {
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.add-assets-btn__icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--primary-foreground);
-}
-
-/* ------------------------- */
-/* SECTION STYLES */
-/* ------------------------- */
-.section {
-  margin-bottom: 4rem;
-  animation: fadeIn 0.5s ease-out;
-}
-
-.section__title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  margin-bottom: 2rem;
-}
-
-/* ------------------------- */
-/* CREATIONS LIST */
-/* ------------------------- */
-.creations-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.creation-item {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  animation: slideIn 0.4s ease-out;
-}
-
-.creation-item__image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.creation-item__info h3 {
-  font-weight: 700;
-  font-size: 1.125rem;
-}
-
-.creation-item__type {
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-}
-
-.creation-item__price {
-  color: var(--primary);
   font-weight: 600;
+  font-size: 18px;
 }
 
-/* ------------------------- */
-/* MOST POPULAR SECTION */
-/* ------------------------- */
-.popular-content {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.add-assets-btn .plus {
+  background: red;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 }
 
-.popular-content__image {
-  width: 6rem;
-  height: 6rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.popular-content__title {
-  font-weight: 700;
-  font-size: 1.125rem;
-  letter-spacing: 0.05em;
-}
-
-.popular-content__stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-  margin-top: 0.5rem;
-}
-
-.stat {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stat svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-/* ------------------------- */
-/* TRENDING SECTION */
-/* ------------------------- */
-.trending-header {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.trending-header .highlight {
-  color: var(--trending-orange);
-  font-weight: 700;
-  font-style: italic;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-}
-
-.trending-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.trending-item {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.trending-item__rank {
-  font-size: 3rem;
-  font-weight: 700;
-  font-style: italic;
-  color: hsla(215, 15%, 45%, 0.3);
-  min-width: 80px;
-}
-
-.trending-item__image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.trending-item__title {
-  font-weight: 700;
-  font-size: 1.125rem;
-}
-
-.trending-item__stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-  margin-top: 0.25rem;
-}
-
-/* ------------------------- */
-/* FOOTER */
-/* ------------------------- */
 .footer {
   text-align: center;
-  padding: 2.5rem 0;
-  opacity: 0.9;
+  margin-top: 100px;
+  font-size: 12px;
+  color: #777;
+  padding-bottom: 20px;
 }
-
-.footer__logo {
-  width: 4rem;
-  margin: 0 auto 0.5rem;
-}
-
-.footer__copyright {
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-}
-
-/* ------------------------- */
-/* ANIMATIONS */
-/* ------------------------- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+.small-img{
+  width: 150px;
 }

@@ -86,8 +86,22 @@ def primary_sale(token_id, private_key, distributor_address, price):
     buyer_address = account.address
     target_owner = Web3.to_checksum_address(distributor_address)
 
-    print(f"DEBUG: Payer is {buyer_address}")
-    print(f"DEBUG: NFT will be sent to {target_owner}")
+    # --- DIAGNOSTIC START ---
+# --- UPDATED DIAGNOSTIC FOR YOUR ABI ---
+    try:
+        # arts(tokenId) returns a list/tuple: [artist_address, primaryPrice]
+        art_info = contract.functions.arts(int(token_id)).call()
+        contract_expected_price = art_info[1] # Index 1 is the primaryPrice
+        
+        print(f"DEBUG: Blockchain expects {contract_expected_price} Wei")
+        print(f"DEBUG: Frontend/Django is sending {price} Wei")
+        
+        if int(price) < contract_expected_price:
+            print("WARNING: PRICE MISMATCH! Transaction will likely fail.")
+    except Exception as e:
+        print(f"DEBUG: Diagnostic failed. Could not read 'arts' mapping: {e}")
+    # ---------------------------------------
+    # --- DIAGNOSTIC END ---
 
     tx = contract.functions.primarySale(
         int(token_id),
@@ -104,12 +118,7 @@ def primary_sale(token_id, private_key, distributor_address, price):
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
     receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 
-    # CHECK STATUS HERE
     print(f"DEBUG: Transaction Status: {receipt['status']} (1=Success, 0=Fail)")
-    
-    if receipt['status'] == 0:
-        print("ERROR: The transaction reverted! Check if the Artist approved the contract.")
-        
     return receipt
 
 def list_for_resale(token_id, private_key, price):
@@ -148,3 +157,37 @@ def buy_resale(token_id, private_key, price):
     signed_tx = w3.eth.account.sign_transaction(tx, private_key=private_key)
     tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
     return w3.eth.wait_for_transaction_receipt(tx_hash)
+
+
+
+def ensure_marketplace_approval(private_key):
+    account = w3.eth.account.from_key(private_key)
+    from .blockchain import contract as nft_contract 
+    
+    marketplace_address = nft_contract.address
+    
+    is_approved = nft_contract.functions.isApprovedForAll(
+        account.address, marketplace_address
+    ).call()
+
+    if not is_approved:
+        print(f"DEBUG: Approval not found for {account.address}. Sending tx...")
+        
+        # Get the latest nonce
+        nonce = w3.eth.get_transaction_count(account.address)
+        
+        tx = nft_contract.functions.setApprovalForAll(marketplace_address, True).build_transaction({
+            'from': account.address,
+            'nonce': nonce,
+            'gas': 100000,
+            'gasPrice': w3.eth.gas_price
+        })
+        
+        signed_tx = w3.eth.account.sign_transaction(tx, private_key)
+        
+        # --- FIX APPLIED HERE ---
+        tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
+        # ------------------------
+        
+        w3.eth.wait_for_transaction_receipt(tx_hash)
+        print("DEBUG: Approval Transaction Succeeded")

@@ -1,134 +1,184 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
 import "./Asset.css";
 
-/* ICONS */
-const PlusIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M5 12h14" />
-    <path d="M12 5v14" />
-  </svg>
-);
-const ShoppingCartIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <circle cx="8" cy="21" r="1" />
-    <circle cx="19" cy="21" r="1" />
-    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
-  </svg>
-);
-const StarIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-  </svg>
-);
-const WalletIcon = () => (
-  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2" />
-    <path d="M3 5v14a2 2 0 0 0 2 2h15" />
-  </svg>
-);
-
-/* DATA */
-const myCreations = [
-  { id: 1, title: "ROCK N ROLL", year: 2013, type: "Music", price: 4000, image: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=200" },
-  { id: 2, title: "Shadow in Dark", year: 2020, type: "Music", price: 2000, image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=200" },
-  { id: 3, title: "Black Dawns", year: 2011, type: "Music", price: 2000, image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200" },
-  { id: 4, title: "Piano Dawns", year: 2011, type: "Music", price: 2000, image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=200" },
-];
-
-const mostPopular = {
-  title: "SHADOW IN THE DARK",
-  sales: 1500,
-  reviews: 20,
-  earnings: 43000,
-  image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=200",
-};
-
-const trending = [
-  { rank: "1st", title: "Black Dawns", sales: 23300, reviews: 900, earnings: 453000, image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=200" },
-  { rank: "2nd", title: "Piano Dawns", sales: 23300, reviews: 900, earnings: 453000, image: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?w=200" },
-];
-
-const Asset = () => {
+export default function Asset() {
   const navigate = useNavigate();
 
+  // --- STATE ---
+  const [creations, setCreations] = useState([]);
+  const [activeListings, setActiveListings] = useState([]);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    document.body.classList.add("has-transparent-navbar");
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    setUser(storedUser);
+
+    const fetchData = async () => {
+      if (!storedUser || !storedUser.wallet) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // 1. Fetch Marketplace with Role Filter
+        const listingsRes = await axios.get(
+          `http://127.0.0.1:8000/api/active-listings/?role=${storedUser.role}`
+        );
+        setActiveListings(listingsRes.data);
+
+        // 2. Fetch Wallet Activity
+        const walletRes = await axios.get(
+          `http://127.0.0.1:8000/api/wallet-activity/${storedUser.wallet}/`
+        );
+        setCreations(walletRes.data.artworks);
+
+      } catch (err) {
+        console.error("Error fetching data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => document.body.classList.remove("has-transparent-navbar");
+  }, []);
+
+  const handleAddasset = () => navigate("/addasset");
+
+  if (loading) return <div className="loading-screen">Loading Assets...</div>;
+
   return (
-    <div className="asset-page">
+    <div className="assets-page">
+      {/* MINT BUTTON FOR ARTISTS */}
+      {user?.role === "artist" && (
+        <div className="add-assets-wrapper">
+          <button className="add-assets-btn" onClick={handleAddasset}>
+            <span className="plus"><FontAwesomeIcon icon={faPlus} /></span>{" "}
+            ADD assets
+          </button>
+        </div>
+      )}
 
-      {/* ADD ASSETS */}
-      <div className="add-assets-btn-wrapper">
-        <button className="add-assets-btn" onClick={() => navigate("/layout/addasset")}>
-          <span className="add-assets-btn__icon"><PlusIcon /></span>
-          <span><strong>ADD</strong> assets</span>
-        </button>
+      {/* SECTION: YOUR INVENTORY */}
+      <section className="section">
+        <h2 className="section-title">YOUR CREATIONS & COLLECTION</h2>
+        <div className="grid-3">
+          {creations.length > 0 ? (
+            creations.map((art) => (
+              <AssetCard 
+                key={art.token_id}
+                title={art.title} 
+                ownerName={art.owner_name}
+                price={art.artist_name === user?.username ? "Created" : "Collected"}
+                imageUrl={art.cover_url} 
+                onClick={() => navigate("/layout/sellingasset", { state: { artwork: art } })}
+              />
+            ))
+          ) : (
+            <p className="no-data">No assets found for this wallet.</p>
+          )}
+        </div>
+      </section>
+
+      {/* SECTION: MARKETPLACE */}
+      <section className="section">
+        <h2 className="section-title">Assets for Sale</h2>
+        {activeListings.length > 0 ? (
+          <Carousel>
+            {activeListings.map((listing) => (
+              <SmallAsset 
+                key={listing.id}
+                title={listing.artwork_details.title} 
+                price={`Rs. ${Math.round(parseFloat(listing.price) * 500000).toLocaleString()}`} 
+                imageUrl={listing.artwork_details.cover_url} 
+                sellerName={listing.seller_name}
+                // Identification only, no disabling
+                isOwnListing={listing.seller_name === user?.username}
+                // Navigation to Buying page for everyone
+                onClick={() => navigate("/layout/buyingasset", { state: { listing: listing } })}
+              />
+            ))}
+          </Carousel>
+        ) : (
+          <p className="no-data">No listings available for your role.</p>
+        )}
+      </section>
+
+      <footer className="footer">© Copyright 2025 All rights reserved.</footer>
+    </div>
+  );
+}
+
+/* ---------- REUSABLE COMPONENTS ---------- */
+
+const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
+  <div className="asset-card" onClick={onClick} style={{ cursor: 'pointer' }}>
+    <div className="asset-img">
+      <img src={imageUrl || "/placeholder.png"} alt={title} />
+    </div>
+    <div className="asset-info">
+      <h4>{title}</h4>
+      <p className="owner-name" style={{ color: "#888", fontSize: "0.85rem", margin: "4px 0" }}>
+        Owner: {ownerName}
+      </p>
+      <span className="price" style={{ fontWeight: "bold", color: "#e63946" }}>
+        {price}
+      </span>
+    </div>
+  </div>
+);
+
+const SmallAsset = ({ title, price, imageUrl, sellerName, onClick, isOwnListing }) => (
+  <div 
+    className="small-asset-card" 
+    onClick={onClick} 
+    style={{ cursor: "pointer" }}
+  >
+    <div className="small-img">
+      <img src={imageUrl || "/placeholder.png"} alt={title} />
+      {isOwnListing && <div className="own-badge">Your Listing</div>}
+    </div>
+    <div className="small-asset-info">
+        <h5>{title}</h5>
+        <p className="seller-hint" style={{ fontSize: "0.75rem", color: "#666" }}>Seller: {sellerName}</p>
+        <span className="price">{price}</span>
+    </div>
+  </div>
+);
+
+const Carousel = ({ children }) => {
+  const scrollRef = useRef(null);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const { scrollLeft, clientWidth } = scrollRef.current;
+      const scrollAmount = clientWidth / 2;
+      scrollRef.current.scrollTo({
+        left: direction === "left" ? scrollLeft - scrollAmount : scrollLeft + scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  return (
+    <div className="carousel-wrappers">
+      <button className="carousel-btn left" onClick={() => scroll("left")}>
+        <FontAwesomeIcon icon={faChevronLeft} />
+      </button>
+      <div className="carousel-container" ref={scrollRef}>
+        {children}
       </div>
-
-      {/* YOUR CREATIONS */}
-      <section className="section">
-        <h2 className="section__title">YOUR CREATIONS</h2>
-        <div className="creations-list">
-          {myCreations.map(a => (
-            <div key={a.id} className="creation-item">
-              <img src={a.image} alt={a.title} className="creation-item__image" />
-              <div>
-                <h3>{a.title} - {a.year}</h3>
-                <p className="creation-item__type">{a.type}</p>
-                <p className="creation-item__price">Rs. {a.price}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* MOST POPULAR */}
-      <section className="section">
-        <h2 className="section__title"><strong>MOST</strong> popular ✨</h2>
-
-        <div className="popular-content">
-          <img src={mostPopular.image} alt="" className="popular-content__image" />
-          <div>
-            <h3 className="popular-content__title">{mostPopular.title}</h3>
-
-            <div className="popular-content__stats">
-              <span className="stat"><ShoppingCartIcon /> {mostPopular.sales} sales</span>
-              <span className="stat"><StarIcon /> {mostPopular.reviews} reviews</span>
-              <span className="stat"><WalletIcon /> Rs. {mostPopular.earnings}</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TRENDING */}
-      <section className="section">
-        <h2 className="trending-header">Trending in market <span className="highlight">🔥</span></h2>
-
-        <div className="trending-list">
-          {trending.map(t => (
-            <div key={t.rank} className="trending-item">
-              <span className="trending-item__rank">{t.rank}</span>
-              <img src={t.image} alt="" className="trending-item__image" />
-
-              <div>
-                <h3 className="trending-item__title">{t.title}</h3>
-                <div className="trending-item__stats">
-                  <span>{t.sales} sales</span>
-                  <span>{t.reviews} reviews</span>
-                  <span>Rs. {t.earnings}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="footer">
-        <img src="/UTA.png" alt="UTA" className="footer__logo" />
-        <p className="footer__copyright">© Copyright 2025 All rights reserved.</p>
-      </footer>
-
+      <button className="carousel-btn right" onClick={() => scroll("right")}>
+        <FontAwesomeIcon icon={faChevronRight} />
+      </button>
     </div>
   );
 };
-
-export default Asset;

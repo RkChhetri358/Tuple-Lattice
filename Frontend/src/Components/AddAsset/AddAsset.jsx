@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios"; 
 import "./AddAsset.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function AddAsset() {
   useEffect(() => {
@@ -23,6 +24,7 @@ export default function AddAsset() {
   const [preview, setPreview] = useState(null); 
   const [loading, setLoading] = useState(false);
 
+    const navigate = useNavigate();
 
 const [npr, setNpr] = useState("");     // input NPR
 const ETH_PRICE_NPR = 500000; // Example: 1 ETH = 300,000 NPR
@@ -82,6 +84,7 @@ const handlePriceChange = (e) => {
       });
 
       alert(`Success! Minted Token ID: ${response.data.token_id}`);
+       navigate('/layout/asset');
       // Optional: Reset form or redirect here
     } catch (error) {
       console.error("Minting Error:", error.response?.data || error.message);
