@@ -25,6 +25,7 @@ export default function AddAsset() {
 
 
 const [npr, setNpr] = useState("");     // input NPR
+const ETH_PRICE_NPR = 500000; // Example: 1 ETH = 300,000 NPR
 
 const handlePriceChange = (e) => {
   const nprValue = e.target.value;
