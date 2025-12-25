@@ -1,0 +1,94 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/token/ERC721/ERC721.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/token/common/ERC2981.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.0/contracts/access/Ownable.sol";
+
+contract ArtMarketplace is ERC721, ERC2981, Ownable {
+
+    uint256 public tokenCounter;
+
+    struct Art {
+        address artist;
+        uint256 primaryPrice;
+    }
+
+    mapping(uint256 => Art) public arts;
+    mapping(uint256 => uint256) public resalePrices;
+
+    constructor(address initialOwner) ERC721("ArtChain", "ARTC") Ownable(initialOwner) {
+        tokenCounter = 0;
+    }
+
+    function mintArt(
+        uint96 royalty,
+        uint256 primaryPrice
+    ) external returns (uint256) {
+        tokenCounter++;
+        uint256 tokenId = tokenCounter;
+
+        _safeMint(msg.sender, tokenId); 
+        _setTokenRoyalty(tokenId, msg.sender, royalty);
+
+        // CHANGED FOR OPENZEPPELIN v5.0:
+        // Third argument 'msg.sender' is the 'auth' address (the owner authorizing this)
+        _approve(address(this), tokenId, msg.sender); 
+
+        arts[tokenId] = Art(msg.sender, primaryPrice);
+
+        return tokenId;
+    }
+
+
+    function primarySale(uint256 tokenId, address distributor) external payable {
+        Art memory art = arts[tokenId];
+
+        require(ownerOf(tokenId) == art.artist, "Not artist");
+        require(msg.value == art.primaryPrice, "Incorrect price");
+
+        // 1. Pay the artist
+        (bool success, ) = art.artist.call{value: msg.value}("");
+        require(success, "Payment failed");
+
+        // 2. FIX: Use transferFrom instead of safeTransferFrom
+        // Since the contract was approved during minting, it can now move the token
+        this.transferFrom(art.artist, distributor, tokenId);
+    }
+
+
+    function setResalePrice(uint256 tokenId, uint256 price) external {
+        require(ownerOf(tokenId) == msg.sender, "Not owner");
+        resalePrices[tokenId] = price;
+    }
+
+function buyResale(uint256 tokenId) external payable {
+    uint256 price = resalePrices[tokenId];
+    address seller = ownerOf(tokenId);
+
+    require(price > 0, "Not listed");
+    require(msg.value == price, "Incorrect value");
+
+    (address royaltyReceiver, uint256 royaltyAmount) = royaltyInfo(tokenId, msg.value);
+
+    (bool royaltySuccess, ) = royaltyReceiver.call{value: royaltyAmount}("");
+    require(royaltySuccess, "Royalty payment failed");
+
+    (bool sellerSuccess, ) = seller.call{value: msg.value - royaltyAmount}("");
+    require(sellerSuccess, "Seller payment failed");
+
+    _transfer(seller, msg.sender, tokenId);
+
+    resalePrices[tokenId] = 0;
+}
+
+
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC2981)
+        returns (bool)
+    {
+        return super.supportsInterface(interfaceId);
+    }
+}

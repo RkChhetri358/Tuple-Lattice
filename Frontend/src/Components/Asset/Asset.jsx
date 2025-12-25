@@ -7,11 +7,17 @@ import "./Asset.css";
 export default function Asset() {
   const navigate = useNavigate();
 
+
+  const handleAddasset = () => 
+  {
+    navigate("/addasset");
+  }
   return (
     <div className="assets-page">
       {/* ADD ASSETS BUTTON */}
       <div className="add-assets-wrapper">
-        <button className="add-assets-btn">
+<button className="add-assets-btn" onClick={handleAddasset}>
+
           <span className="plus">
             <FontAwesomeIcon icon={faPlus} />
           </span>{" "}

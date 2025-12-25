@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios"; 
 import "./AddAsset.css";
 import { Link } from "react-router-dom";
+export default function SellingAsset() {
 
-export default function AddAsset() {
   useEffect(() => {
     document.body.classList.add("has-transparent-navbar");
     return () => {
@@ -91,15 +91,15 @@ const handlePriceChange = (e) => {
     }
   };
 
-  return (
-    <div className="assets-container">
+  return (  
+   <div className="assets-container">
 <div className="assets-header">
   <Link to="/layout/asset" className="no-underline">
     <span className="back-arrow">←</span>
   </Link>
 
   <h2 className="assets-title">
-    <strong>ADDING</strong> <span>assets</span>
+    <strong>SELLING</strong> <span>assets</span>
   </h2>
 </div>
 
@@ -108,9 +108,9 @@ const handlePriceChange = (e) => {
         <div className="asset-image-box">
           <label className="image-placeholder">
             {preview ? <img src={preview} alt="preview" /> : <span>＋</span>}
-            <input type="file" hidden accept="image/*" onChange={handleCoverUpload} />
+            <input type="file" hidden accept="image/*" readOnly={true} onChange={handleCoverUpload} />
           </label>
-          <p>Add Thumbnail / Cover</p>
+          
         </div>
 
         <div className="asset-form">
@@ -122,7 +122,7 @@ const handlePriceChange = (e) => {
               <input 
                 value={title} 
                 onChange={(e) => setTitle(e.target.value)} 
-                placeholder="Title of the artwork" 
+                placeholder="Title of the artwork"  readOnly={true}
               />
             </div>
           </div>
@@ -134,14 +134,15 @@ const handlePriceChange = (e) => {
                 type="password"
                 value={privateKey}
                 onChange={(e) => setPrivateKey(e.target.value)}
-                placeholder="0x..."
+                placeholder="0x..." readOnly={true}
               />
             </div>
             <div className="form-group">
               <label>Upload Asset</label>
               <input 
                 type="file" 
-                onChange={(e) => setAssetFile(e.target.files[0])} 
+                onChange={(e) => setAssetFile(e.target.files[0]) } 
+                readOnly={true}
               />
             </div>
           </div>
@@ -152,7 +153,7 @@ const handlePriceChange = (e) => {
               <textarea 
                 value={description} 
                 onChange={(e) => setDescription(e.target.value)} 
-                placeholder="Describe your asset..." 
+                placeholder="Describe your asset..." readOnly={true}
               />
             </div>
               <div className="form-group">
@@ -194,5 +195,5 @@ const handlePriceChange = (e) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
