@@ -1,49 +1,78 @@
-/* Container */
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+
+/* Root fix */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* ❌ page scroll disabled */
+}
+
+/* Page Container */
 .signup-container {
-  min-height: 100vh;
+  height: 100%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   background: url("/loginBG.png") no-repeat center center;
   background-size: cover;
   font-family: "Raleway", sans-serif;
-  padding: 20px; /* for small screens */
+  padding: 16px;
   box-sizing: border-box;
 }
 
 /* Card */
 .signup-card {
   width: 100%;
-  max-width: 400px; /* flexible max width */
+  max-width: 400px;
+  max-height: calc(100vh - 32px); /* viewport safe */
   background: #fff;
   border-radius: 16px;
-  padding: 32px 28px 40px 28px; /* bottom padding included */
+  padding: 24px;
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
   box-sizing: border-box;
-  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
 }
 
 /* Header */
 .signup-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 16px;
 }
 
 .logo {
-  width: 90px;
-  max-width: 80%;
-  height: auto;
+  width: 80px;
 }
 
-/* Form */
+/* Form wrapper scroll zone */
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding-bottom: 20px; /* extra bottom padding */
+  gap: 14px;
+  overflow-y: auto; /* ✅ scroll only here */
+  padding-right: 4px;
 }
 
-/* Password toggle */
+/* Role Selection */
+.role-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.role-options label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Password */
 .password-wrapper {
   position: relative;
 }
@@ -62,87 +91,36 @@
   margin-top: 12px;
   background: #000;
   color: #fff;
-  padding: 14px;
+  padding: 13px;
   border-radius: 30px;
   border: none;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   width: 100%;
 }
 
-.signup-btn:hover {
-  opacity: 0.85;
-}
-
-/* Links */
-.login-link {
-  margin-top: 22px;
-  text-align: center;
-  font-size: 13px;
-}
-
-.login-link span {
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.login-link span:hover {
-  opacity: 0.8;
-}
-
+/* Footer text */
+.login-link,
 .terms-condition {
-  margin-top: 12px;
   text-align: center;
   font-size: 12px;
-  color: #777;
-  line-height: 1.5;
-  padding: 0 10px;
+  margin-top: 10px;
+}
+/* ===== Hide scrollbar but keep scroll (Professional) ===== */
+
+/* Chrome, Edge, Safari */
+.signup-form::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
 }
 
-.terms-condition span {
-  color: #000;
-  font-weight: 600;
-  cursor: pointer;
+/* Firefox */
+.signup-form {
+  scrollbar-width: none;
 }
 
-/* Responsive for smaller devices */
-@media (max-width: 768px) {
-  .signup-card {
-    padding: 28px 20px 36px 20px;
-  }
-
-  .signup-form {
-    gap: 14px;
-    padding-bottom: 16px;
-  }
-
-  .signup-btn {
-    padding: 12px;
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .signup-card {
-    width: 100%;
-    margin: 0 10px;
-    padding: 24px 16px 32px 16px;
-  }
-
-  .signup-header {
-    margin-bottom: 20px;
-  }
-
-  .signup-form {
-    gap: 12px;
-    padding-bottom: 12px;
-  }
-
-  .signup-btn {
-    padding: 12px;
-    font-size: 13px;
-  }
+/* IE & old Edge */
+.signup-form {
+  -ms-overflow-style: none;
 }

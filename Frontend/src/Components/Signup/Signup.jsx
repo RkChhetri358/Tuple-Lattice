@@ -10,8 +10,8 @@ const Signup = () => {
     username: "",
     email: "",
     password: "",
-    wallet: "",
-    privateAddress: "",
+    wallet_address: "", // Updated to match Django model
+    role: "user",
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -25,21 +25,20 @@ const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/Backend/UTB/signup/",
+        "http://127.0.0.1:8000/api/signup/", // Ensure this matches your urls.py
         formData
       );
 
       if (response.status === 201) {
-        alert("Signup Successful");
+        alert("Signup Successful! Please login.");
         navigate("/login");
       }
     } catch (error) {
       if (error.response) {
+        // Show specific error from Django (e.g., "Username already taken")
         alert(`Error: ${JSON.stringify(error.response.data)}`);
-      } else if (error.request) {
-        alert("No response from server. Please try again later.");
       } else {
-        alert(`Error: ${error.message}`);
+        alert("Server is unreachable. Check if Django is running.");
       }
     }
   };
@@ -49,15 +48,55 @@ const Signup = () => {
       <div className="signup-card">
         <div className="signup-header">
           <img src="/UTA.png" alt="UTA Logo" className="logo" />
+          <h2>Create Account</h2>
         </div>
 
         <form className="signup-form" onSubmit={handleSubmit}>
+          {/* ROLE SELECTION */}
+          <div className="form-group">
+            <label>I am a...</label>
+            <div className="role-options">
+              <label className={formData.role === "artist" ? "active" : ""}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="artist"
+                  checked={formData.role === "artist"}
+                  onChange={handleChange}
+                />
+                Artist
+              </label>
+
+              <label className={formData.role === "distributor" ? "active" : ""}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="distributor"
+                  checked={formData.role === "distributor"}
+                  onChange={handleChange}
+                />
+                Distributor
+              </label>
+
+              <label className={formData.role === "user" ? "active" : ""}>
+                <input
+                  type="radio"
+                  name="role"
+                  value="user"
+                  checked={formData.role === "user"}
+                  onChange={handleChange}
+                />
+                Collector
+              </label>
+            </div>
+          </div>
+
           <div className="form-group">
             <label>Username</label>
             <input
               type="text"
               name="username"
-              placeholder="Enter username"
+              placeholder="Dave"
               value={formData.username}
               onChange={handleChange}
               required
@@ -69,7 +108,7 @@ const Signup = () => {
             <input
               type="email"
               name="email"
-              placeholder="Enter email"
+              placeholder="name@example.com"
               value={formData.email}
               onChange={handleChange}
               required
@@ -82,7 +121,7 @@ const Signup = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
-                placeholder="Enter at least 6 characters"
+                placeholder="Min. 6 characters"
                 value={formData.password}
                 onChange={handleChange}
                 required
@@ -90,32 +129,26 @@ const Signup = () => {
               <span
                 className="toggle-password"
                 onClick={() => setShowPassword(!showPassword)}
+                style={{ cursor: "pointer" }}
               >
-                👁
+                {showPassword ? "🙈" : "👁️"}
               </span>
             </div>
           </div>
 
           <div className="form-group">
-            <label>Add Wallet</label>
+            <label>Public Wallet Address</label>
             <input
               type="text"
-              name="wallet"
-              placeholder="Enter wallet address"
-              value={formData.wallet}
+              name="wallet_address"
+              placeholder="0x..."
+              value={formData.wallet_address}
               onChange={handleChange}
+              required
             />
-          </div>
-
-          <div className="form-group">
-            <label>Private Address</label>
-            <input
-              type="text"
-              name="privateAddress"
-              placeholder="Enter private address"
-              value={formData.privateAddress}
-              onChange={handleChange}
-            />
+            <small style={{ color: "#888", fontSize: "11px" }}>
+              Never enter your private key here.
+            </small>
           </div>
 
           <button className="signup-btn" type="submit">
@@ -124,8 +157,7 @@ const Signup = () => {
         </form>
 
         <div className="login-link">
-          Already have an account?{" "}
-          <Link to="/login">Login</Link>
+          Already have an account? <Link to="/login">Login</Link>
         </div>
 
         <div className="terms-condition">

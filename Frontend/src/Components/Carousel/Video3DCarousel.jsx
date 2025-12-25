@@ -141,7 +141,7 @@ const Video3DCarousel = () => {
 
       ctx.transform(dX1 / width, dY1 / width, dX2 / height, dY2 / height, px1, py1);
 
-      if (video.readyState >= 2) ctx.drawImage(video, 0, 0, width, height);
+      if (video.readyState >= 1) ctx.drawImage(video, 0, 0, width, height);
       else {
         ctx.fillStyle = "#1a1a1a";
         ctx.fillRect(0, 0, width, height);

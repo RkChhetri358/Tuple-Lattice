@@ -1,14 +1,37 @@
+/* Prevent the whole browser from scrolling */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* This fulfills Goal 3 (Global lock) */
+}
+.layout-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.layout-content {
+  flex: 1;
+  height: 100%;
+  width: 100%;
+  /* No padding-top here! The pages will handle their own padding */
+}
+
+/* OPTIONAL BACKGROUND (if needed globally) */
 .indexcontainer {
   min-height: 100vh;
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
 }
 
-.contentpart {
-  padding-top: 80px; /* adjust based on navbar height */
-}
-/* Layout.css or wherever navbar styles are */
 .layout-navbar {
-  position: relative; /* or fixed if you want it sticky */
-  z-index: 1000;      /* high enough so it's on top */
+  position: fixed; /* Goal 1: Sits over the content */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: transparent; /* Goal 1: Takes background of the page */
 }
