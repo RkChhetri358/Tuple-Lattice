@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faChevronLeft, faChevronRight } from "@fortawesome/free-solid-svg-icons";
@@ -7,17 +7,15 @@ import "./Asset.css";
 export default function Asset() {
   const navigate = useNavigate();
 
-
-  const handleAddasset = () => 
-  {
+  const handleAddasset = () => {
     navigate("/addasset");
-  }
+  };
+
   return (
     <div className="assets-page">
       {/* ADD ASSETS BUTTON */}
       <div className="add-assets-wrapper">
-<button className="add-assets-btn" onClick={handleAddasset}>
-
+        <button className="add-assets-btn" onClick={handleAddasset}>
           <span className="plus">
             <FontAwesomeIcon icon={faPlus} />
           </span>{" "}
@@ -64,9 +62,11 @@ export default function Asset() {
         </Carousel>
       </section>
 
-      {/* MOST POPULAR & TRENDING (Kept as is) */}
+      {/* MOST POPULAR & TRENDING */}
       <section className="section">
-        <h2 className="section-title right">MOST <span className="red">popular</span></h2>
+        <h2 className="section-title-large right">
+          MOST <span className="red-most">popular</span>
+        </h2>
         <div className="popular-card">
           <div className="popular-img"><img src="/2.png" alt="popular" /></div>
           <div>
@@ -77,7 +77,9 @@ export default function Asset() {
       </section>
 
       <section className="section">
-        <h2 className="section-title"><span className="red">Trending</span> in market</h2>
+        <h2 className="section-title-large">
+          <span className="red-most">Trending</span> in market
+        </h2>
         <Trending rank="1st" title="Black Dawns" imageUrl="/3.png" />
         <Trending rank="2nd" title="Piano Dawns" imageUrl="/4.png" />
       </section>
@@ -90,17 +92,38 @@ export default function Asset() {
 /* ---------- COMPONENTS ---------- */
 
 const Carousel = ({ children }) => {
-  const [rotation, setRotation] = React.useState(0);
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+  const [isTransitioning, setIsTransitioning] = React.useState(false);
+  const trackRef = React.useRef(null);
+  
   const totalItems = React.Children.count(children);
-  
-  // How many items to show at once (helps calculate the step)
-  const itemsPerPage = 4; 
-  
+  const itemsPerPage = 4;
+  const scrollAmount = 3; // Moves 3 items at a time on one click
+
+  React.useEffect(() => {
+    setCurrentIndex(totalItems);
+  }, [totalItems]);
+
   const handleScroll = (direction) => {
+    if (isTransitioning) return;
+    
+    setIsTransitioning(true);
+    
     if (direction === "right") {
-      setRotation((prev) => prev + 1);
+      setCurrentIndex((prev) => prev + scrollAmount);
     } else {
-      setRotation((prev) => prev - 1);
+      setCurrentIndex((prev) => prev - scrollAmount);
+    }
+  };
+
+  const handleTransitionEnd = () => {
+    setIsTransitioning(false);
+    
+    // Seamless jump logic
+    if (currentIndex >= totalItems * 2) {
+      setCurrentIndex(currentIndex - totalItems);
+    } else if (currentIndex < totalItems) {
+      setCurrentIndex(currentIndex + totalItems);
     }
   };
 
@@ -111,15 +134,16 @@ const Carousel = ({ children }) => {
       </button>
 
       <div className="carousel-infinite-window">
-        <div 
-          className="carousel-infinite-track" 
-          style={{ 
-            transform: `translateX(calc(-${rotation * (100 / itemsPerPage)}%))`,
-            transition: "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)"
+        <div
+          ref={trackRef}
+          className="carousel-infinite-track"
+          style={{
+            transform: `translateX(-${currentIndex * (100 / itemsPerPage)}%)`,
+            transition: isTransitioning ? "transform 0.8s cubic-bezier(0.23, 1, 0.32, 1)" : "none",
+            cursor: "default" /* Dragging removed */
           }}
+          onTransitionEnd={handleTransitionEnd}
         >
-          {/* We render 3 sets: Previous, Current, and Next to ensure 
-              the loop always has content visible during the move */}
           {React.Children.map(children, (child) => (
             <div className="carousel-item-fixed">{child}</div>
           ))}
