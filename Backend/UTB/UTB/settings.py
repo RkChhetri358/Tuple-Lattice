@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -119,7 +121,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 WEB3_PROVIDER = "http://127.0.0.1:8545"
-CONTRACT_ADDRESS = "0x8E09e0707aD97c4491980d2ed16A3FdD2819b15E"
+CONTRACT_ADDRESS = "0x542A43eF499D23A571C0491481286dB64aae13F4"
 ADMIN_WALLET = "0x90F8bf6A479f320ead074411a4B0e7944Ea8c9C1"
 ADMIN_PRIVATE_KEY = "0x4f3edf983ac636a65a842ce7c78d9aa706d3b113bce9c46f30d7d21715b23b1d"
 
@@ -135,3 +137,11 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = "api.User"
+
+import os
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+CORS_ALLOW_ALL_ORIGINS = True  # For newer versions
+CORS_ORIGIN_ALLOW_ALL = True   # For older versions
