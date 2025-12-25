@@ -7,6 +7,9 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from rest_framework import status
 from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
+from django.db.models import Sum
 
 from .models import Artwork, Listing,User
 from .blockchain import mint_art_artist, primary_sale, list_for_resale, buy_resale,w3,ensure_marketplace_approval
@@ -291,8 +294,72 @@ class ActiveListingsView(APIView):
             listings = listings.filter(seller__role="artist")
         
         elif user_role == "user":
-            # Normal user sees only what Distributors have listed
-            listings = listings.filter(seller__role="distributor")
+            # Normal user sees items listed by Distributors OR other Users (Secondary Market)
+            listings = listings.filter(
+                Q(seller__role="distributor") | Q(seller__role="user")
+            )
 
         serializer = ListingSerializer(listings, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+def get_profile_data(request, wallet_address):
+    try:
+        user = get_object_or_404(User, wallet_address__iexact=wallet_address)
+        
+        # The conversion rate used in your React frontend
+        NPR_RATE = 500000 
+        
+        # 1. Direct Sales volume in raw units
+        direct_sales_volume = Listing.objects.filter(
+            seller=user, 
+            active=False
+        ).aggregate(Sum('price'))['price__sum'] or 0
+
+        # 2. Royalty volume from secondary sales
+        royalty_sales_volume = Listing.objects.filter(
+            artwork__artist=user, # Check if your field is 'artist' or 'creator'
+            active=False
+        ).exclude(seller=user).aggregate(Sum('price'))['price__sum'] or 0
+        
+        # 3. Calculate components in NPR
+        # Applying the 500,000 multiplier here
+        direct_sales_npr = float(direct_sales_volume) * NPR_RATE
+        total_royalties_npr = (float(royalty_sales_volume) * 0.10) * NPR_RATE
+        platform_fee_npr = direct_sales_npr * 0.05
+        
+        # 4. Final Earnings in NPR
+        # (Sales - Platform Fee) + Royalties
+        net_earnings_npr = (direct_sales_npr - platform_fee_npr) + total_royalties_npr
+
+        # 5. Calculate percentages for UI bars
+        total_for_stats = net_earnings_npr + platform_fee_npr + total_royalties_npr
+        
+        def get_perc(val):
+            return round((val / total_for_stats) * 100) if total_for_stats > 0 else 0
+
+        data = {
+            "username": user.username,
+            "role": user.role,
+            "balance": f"Rs. {net_earnings_npr:,.0f}", # Using :.0f for Math.round equivalent
+            "revenue_stats": [
+                {
+                    "title": "Your Earnings", 
+                    "percent": get_perc(net_earnings_npr - total_royalties_npr), 
+                    "amount": f"Rs. {(net_earnings_npr - total_royalties_npr):,.0f}"
+                },
+                {
+                    "title": "Platform Fees", 
+                    "percent": get_perc(platform_fee_npr), 
+                    "amount": f"Rs. {platform_fee_npr:,.0f}"
+                },
+                {
+                    "title": "Royalties Earned", 
+                    "percent": get_perc(total_royalties_npr), 
+                    "amount": f"Rs. {total_royalties_npr:,.0f}"
+                },
+            ]
+        }
+        return JsonResponse(data)
+    
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)
