@@ -3,8 +3,6 @@ import "./Signup.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-
-
 const Signup = () => {
   const navigate = useNavigate();
 
@@ -14,6 +12,7 @@ const Signup = () => {
     password: "",
     wallet: "",
     privateAddress: "",
+    role: "user", // 👈 default role
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -54,6 +53,45 @@ const Signup = () => {
         </div>
 
         <form className="signup-form" onSubmit={handleSubmit}>
+          {/* ROLE SELECTION */}
+          <div className="form-group">
+            <label>Choose Role</label>
+            <div className="role-options">
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="artist"
+                  checked={formData.role === "artist"}
+                  onChange={handleChange}
+                />
+                Artist
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="distributor"
+                  checked={formData.role === "distributor"}
+                  onChange={handleChange}
+                />
+                Distributor
+              </label>
+
+              <label>
+                <input
+                  type="radio"
+                  name="role"
+                  value="user"
+                  checked={formData.role === "user"}
+                  onChange={handleChange}
+                />
+                User
+              </label>
+            </div>
+          </div>
+
           <div className="form-group">
             <label>Username</label>
             <input
@@ -126,14 +164,7 @@ const Signup = () => {
         </form>
 
         <div className="login-link">
-          Already have an account?{" "}
-
-          <Link to="/login">Login</Link>
-
-         
-            <Link to="/login"  onClick={() => alert("Redirect to Login page")}>Login</Link>
-          
-
+          Already have an account? <Link to="/login">Login</Link>
         </div>
 
         <div className="terms-condition">
