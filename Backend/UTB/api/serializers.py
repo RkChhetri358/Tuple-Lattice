@@ -12,7 +12,7 @@ class ArtworkSerializer(serializers.ModelSerializer):
         model = Artwork
         fields = [
             'token_id', 'title', 'description', 
-            'file_url', 'cover_url', 'owner_name', 'artist_name'
+            'file_url', 'cover_url', 'owner_name', 'artist_name','royalty_percentage'
         ]
 
     def get_file_url(self, obj):
@@ -24,9 +24,16 @@ class ArtworkSerializer(serializers.ModelSerializer):
         if obj.cover_image:
             return self.context['request'].build_absolute_uri(obj.cover_image.url)
         return None
-        return None
-
 class ListingSerializer(serializers.ModelSerializer):
+    artwork_details = ArtworkSerializer(source='artwork', read_only=True)
+    seller_name = serializers.ReadOnlyField(source='seller.username')
+    # ADD THIS LINE to pull the royalty up to the top level
+    royalty_percentage = serializers.ReadOnlyField(source='artwork.royalty_percentage')
+
     class Meta:
         model = Listing
-        fields = "__all__"
+        fields = [
+            'id', 'price', 'active', 'seller', 
+            'seller_name', 'artwork', 'artwork_details', 
+            'royalty_percentage' # Include it here
+        ]
