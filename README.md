@@ -1,4 +1,4 @@
-🎨 Decentralized Art Marketplace
+UNBLOCK THE ARTIST
 
 A full-stack NFT marketplace integration using Django (DRF), React, and Solidity. This platform allows artists to mint digital assets and distributors to purchase them through on-chain primary sales.
 🏗️ System Architecture
