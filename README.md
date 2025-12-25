@@ -40,9 +40,15 @@ Bash
 
     Navigate to the frontend folder:
     Bash
+    
+        npm install
+        npm start
 
-    npm install
-    npm start
+3. Smart Contract
+
+    Deploy the ArtMarketplace contract to your local network (Hardhat/Ganache) or Testnet.
+
+    Copy the contract address and the abi.json to the api/ directory.
 
 🔐 Technical Workflow: Primary Purchase
 
