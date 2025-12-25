@@ -29,12 +29,12 @@
 }
 
 .assets-title strong {
-  font-weight: 600; /* ADDING bold */
+  font-weight: 600;
   font-size: larger;
 }
 
 .assets-title span {
-  font-weight: 400; /* assets normal */
+  font-weight: 400;
 }
 
 /* CARD */
@@ -46,7 +46,9 @@
 /* IMAGE UPLOAD */
 .asset-image-box {
   width: 240px;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .image-placeholder {
@@ -72,19 +74,11 @@
   object-fit: cover;
 }
 
-.asset-image-box {
-  width: 240px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;   /* 🔥 horizontal center */
-}
-
 .asset-image-box p {
-  margin-top: 12px;      /* dabba ko exact tala */
+  margin-top: 12px;
   font-size: 14px;
-  text-align: center;    /* text center */
+  text-align: center;
 }
-
 
 /* FORM */
 .asset-form {
@@ -114,20 +108,38 @@
   color: inherit;
 }
 
-
-
+/* 🔥 INPUTS + TEXTAREA */
 .form-group input,
 .form-group select,
 .form-group textarea {
   padding: 12px 14px;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  background: transparent;                 /* page bg visible */
+  border: 1px solid rgba(0, 0, 0, 0.25);    /* soft initial border */
   font-family: "Raleway", sans-serif;
+  color: #000;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
 }
 
+/* 🔥 CLICK / FOCUS — BLACK BORDER */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border: 1.5px solid #000;                 /* BLACK */
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15); /* subtle glow */
+}
+
+/* TEXTAREA */
 .form-group textarea {
   resize: none;
   height: 80px;
+}
+
+/* PLACEHOLDER */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(0, 0, 0, 0.55);
 }
 
 /* ROYALTY */
@@ -153,11 +165,24 @@
 /* CONFIRM */
 .confirm-row {
   display: flex;
+  align-items: center;
   gap: 8px;
   font-size: 13px;
   margin-bottom: 20px;
 }
 
+.confirm-row input[type="checkbox"] {
+  accent-color: #ff2d2d;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.confirm-row label {
+  cursor: pointer;
+}
+
+/* BUTTON */
 .confirm-btn {
   background: #ff2d2d;
   color: #fff;
@@ -184,35 +209,10 @@
   font-size: 12px;
 }
 
-
-
-
-
+/* PAGE BG */
 .page-container {
   min-height: 100vh;
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
   padding-top: 80px;
-}
-
-
-
-.confirm-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  margin-bottom: 20px;
-}
-
-
-.confirm-row input[type="checkbox"] {
-  accent-color: #ff2d2d;
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.confirm-row label {
-  cursor: pointer;
 }

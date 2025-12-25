@@ -15,6 +15,7 @@ import Home from "./components/Home/Home";
 
 import AddAsset from "./Components/AddAsset/AddAsset";
 import Asset from "./Components/Asset/Asset";
+import SellingAsset from "./Components/SellingAsset/SellingAsset";
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
           <Route path="dashboard" element={<Dashboard />} /> 
          
           <Route path="asset" element={<Asset/>} />
+          <Route path="sellingasset" element={ <SellingAsset/>} />
+         
           
 
           <Route path="profile" element={<Profile />} />
