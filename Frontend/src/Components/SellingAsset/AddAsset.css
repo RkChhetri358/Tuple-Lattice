@@ -1,0 +1,218 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
+
+.assets-container {
+  min-height: 100vh;
+  background: url("/OGBG.png") no-repeat center center;
+  background-size: cover;
+  padding: 100px 80px;
+  font-family: "Raleway", sans-serif;
+}
+
+
+
+/* HEADER */
+.assets-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.back-arrow {
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* TITLE */
+.assets-title {
+  font-size: 20px;
+}
+
+.assets-title strong {
+  font-weight: 600;
+  font-size: larger;
+}
+
+.assets-title span {
+  font-weight: 400;
+}
+
+/* CARD */
+.assets-card {
+  display: flex;
+  gap: 50px;
+}
+
+/* IMAGE UPLOAD */
+.asset-image-box {
+  width: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image-placeholder {
+  width: 200px;
+  height: 200px;
+  background: #cfd4d9;
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image-placeholder span {
+  font-size: 36px;
+  color: #fff;
+}
+
+.image-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.asset-image-box p {
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: center;
+}
+
+/* FORM */
+.asset-form {
+  flex: 1;
+}
+
+.asset-form h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.no-underline {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 🔥 INPUTS + TEXTAREA */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: transparent;                 /* page bg visible */
+  border: 1px solid rgba(0, 0, 0, 0.25);    /* soft initial border */
+  font-family: "Raleway", sans-serif;
+  color: #000;
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* 🔥 CLICK / FOCUS — BLACK BORDER */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border: 1.5px solid #000;                 /* BLACK */
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15); /* subtle glow */
+}
+
+/* TEXTAREA */
+.form-group textarea {
+  resize: none;
+  height: 80px;
+}
+
+/* PLACEHOLDER */
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* ROYALTY */
+.royalty {
+  margin-bottom: 18px;
+}
+
+.royalty-box {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.royalty-box button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* CONFIRM */
+.confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.confirm-row input[type="checkbox"] {
+  accent-color: #ff2d2d;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.confirm-row label {
+  cursor: pointer;
+}
+
+/* BUTTON */
+.confirm-btn {
+  background: #ff2d2d;
+  color: #fff;
+  border: none;
+  padding: 14px 40px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* FOOTER */
+.assets-footer {
+  margin-top: 60px;
+  text-align: center;
+  opacity: 0.9;
+}
+
+.assets-footer img {
+  width: 70px;
+  margin-bottom: 6px;
+}
+
+.assets-footer p {
+  font-size: 12px;
+}
+
+/* PAGE BG */
+.page-container {
+  min-height: 100vh;
+  background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  padding-top: 80px;
+}
