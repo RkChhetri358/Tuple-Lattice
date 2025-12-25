@@ -107,9 +107,12 @@
   gap: 6px;
 }
 
-.form-group.full {
-  flex: 2;
+.no-underline {
+  text-decoration: none;
+  color: inherit;
 }
+
+
 
 .form-group input,
 .form-group select,
@@ -189,3 +192,4 @@
   background-size: cover;
   padding-top: 80px;
 }
+

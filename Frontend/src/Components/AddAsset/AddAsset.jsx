@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios"; 
 import "./AddAsset.css";
+import { Link } from "react-router-dom";
 
 export default function AddAsset() {
   useEffect(() => {
@@ -22,12 +23,31 @@ export default function AddAsset() {
   const [preview, setPreview] = useState(null); 
   const [loading, setLoading] = useState(false);
 
+
+const [npr, setNpr] = useState("");     // input NPR
+
+const handlePriceChange = (e) => {
+  const nprValue = e.target.value;
+  setNpr(nprValue);
+
+  if (!nprValue) {
+    setPrice("");
+    return;
+  }
+
+  const eth = nprValue / ETH_PRICE_NPR;
+  const wei = BigInt(Math.floor(eth * 1e18));
+
+  setPrice(wei.toString());
+};
+
+
   const increaseRoyalty = () => {
-    if (royalty < 20) setRoyalty((prev) => +(prev + 0.5).toFixed(1));
+    if (royalty < 20) setRoyalty((prev) => +(prev + 1).toFixed(1));
   };
 
   const decreaseRoyalty = () => {
-    if (royalty > 0) setRoyalty((prev) => +(prev - 0.5).toFixed(1));
+    if (royalty > 0) setRoyalty((prev) => +(prev - 1).toFixed(1));
   };
 
   const handleCoverUpload = (e) => {
@@ -72,12 +92,15 @@ export default function AddAsset() {
 
   return (
     <div className="assets-container">
-      <div className="assets-header">
-        <span className="back-arrow">←</span>
-        <h2 className="assets-title">
-          <strong>ADDING</strong> <span>assets</span>
-        </h2>
-      </div>
+<div className="assets-header">
+  <Link to="/layout/asset" className="no-underline">
+    <span className="back-arrow">←</span>
+  </Link>
+
+  <h2 className="assets-title">
+    <strong>ADDING</strong> <span>assets</span>
+  </h2>
+</div>
 
       <div className="assets-card">
         {/* THUMBNAIL PREVIEW */}
@@ -114,7 +137,7 @@ export default function AddAsset() {
               />
             </div>
             <div className="form-group">
-              <label>Upload High-Res Asset</label>
+              <label>Upload Asset</label>
               <input 
                 type="file" 
                 onChange={(e) => setAssetFile(e.target.files[0])} 
@@ -131,17 +154,20 @@ export default function AddAsset() {
                 placeholder="Describe your asset..." 
               />
             </div>
+              <div className="form-group">
+  <label>Price (Rs)</label>
+  <input
+    type="number"
+    value={npr}
+    onChange={handlePriceChange}
+    placeholder="Rs"
+  />
+</div>
+
           </div>
 
           <div className="form-row">
-            <div className="form-group">
-              <label>Price (Wei)</label>
-              <input 
-                value={price} 
-                onChange={(e) => setPrice(e.target.value)} 
-                placeholder="e.g. 1000000000000000000" 
-              />
-            </div>
+        
             <div className="form-group">
               <label>Resale Royalty Rate</label>
               <div className="royalty-box">
