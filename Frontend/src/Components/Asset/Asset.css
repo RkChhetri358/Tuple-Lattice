@@ -31,9 +31,10 @@
   display: block;
 }
 .red-most{
-  border: 2px solid red;
+  /* border: 2px solid red; */
   color: #ff0000;
     font-family: "Raleway", sans-serif;
+    font-weight: 500;
 
 }
 
