@@ -1,6 +1,8 @@
 UNBLOCK THE ARTIST
 
 A full-stack NFT marketplace integration using Django (DRF), React, and Solidity. This platform allows artists to mint digital assets and distributors to purchase them through on-chain primary sales.
+
+
 🏗️ System Architecture
 
 The project follows a middleware-based approach where Django acts as a secure bridge between the User Interface and the Ethereum Blockchain.
