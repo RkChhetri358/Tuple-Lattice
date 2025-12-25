@@ -1,246 +1,247 @@
-/* ------------------------- */
-/* ASSET PAGE MAIN WRAPPER */
-/* ------------------------- */
-.asset-page {
-  height: calc(100vh - 90px); /* full viewport minus navbar */
-  overflow-y: auto;           /* scroll only inside Asset page */
-  padding: 2rem 5rem;
+/* --- Global Resets --- */
+* {
+  box-sizing: border-box;
 }
 
-@media (max-width: 768px) {
-  .asset-page {
-    padding: 2rem 2.5rem;
-  }
+/* --- Main Page Container --- */
+.assets-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;    /* Vertical scroll for the whole page */
+  overflow-x: hidden;  /* Prevent horizontal shaking */
+  padding: 140px 100px 80px;
+  background: url("/bg.png") no-repeat center center;
+  background-size: cover;
+  font-family: "Raleway", sans-serif;
 }
 
-/* ------------------------- */
-/* ADD ASSETS BUTTON */
-/* ------------------------- */
-.add-assets-btn-wrapper {
+/* --- Global Image Fix --- */
+/* Ensures all asset/artist images fit their containers without overlapping */
+.asset-img img,
+.small-img img,
+.artist-img img,
+.popular-img img,
+.trend-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; 
+  border-radius: inherit;
+  display: block;
+}
+
+/* --- Carousel System --- */
+/* --- Carousel System Fix --- */
+.carousel-wrappers {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* Increase padding so the buttons sit outside the content area but inside the wrapper */
+  padding: 0 60px; 
+  /* Negative margin pulls the padding back so the content aligns with page titles */
+  margin: 0 -60px; 
+  overflow: visible; /* Crucial so buttons aren't clipped */
+}
+
+.carousel-container {
+  display: flex;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  /* Hide Scrollbars */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  padding: 20px 0;
+  width: 100%;
+}
+
+
+.carousel-container::-webkit-scrollbar {
+  display: none;
+}
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: red;
+  color: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 100; /* High Z-index to stay on top of all images */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.carousel-btn.left { 
+  left: 5px; 
+}
+
+.carousel-btn.right { 
+  right: 5px; 
+}
+
+.carousel-btn:hover {
+  background: #ff0000;
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Ensure the section containing the carousel doesn't clip the buttons */
+.section {
+  margin-bottom: 80px;
+  overflow: visible !important;
+}
+
+.section-title {
+  font-size: 20px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+
+.section-title.right { text-align: right; }
+.red { color: red; }
+
+/* Grid for "Your Creations" (3 Columns) */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* --- Component Specifics --- */
+
+/* Your Creations Cards */
+.asset-card {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.asset-img {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+/* Assets for Sale (Carousel Item) */
+.small-asset-card {
+  flex: 0 0 220px; /* Ensures items have a consistent width in carousel */
+  text-align: left;
+}
+
+.small-img {
+  width: 100%;
+  height: 160px; /* Uniform height for sale assets */
+  border-radius: 16px;
+  background: #ccc;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+/* Artist (Carousel Item) */
+.artist {
+  flex: 0 0 160px; /* Fixed width for artist column */
+  text-align: center;
+}
+
+.artist-img {
+  width: 130px;  /* Larger size as requested */
+  height: 130px; /* Larger size as requested */
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 auto 15px;
+  overflow: hidden;
+  border: 2px solid white;
+}
+
+/* Popular Card */
+.popular-card {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.popular-img {
+  flex-shrink: 0;
+  width: 120px;
+  height: 120px;
+  border-radius: 22px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+/* Trending Rows */
+.trending-row {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr;
+  align-items: center;
+  gap: 20px;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+
+.rank { font-size: 28px; font-weight: 700; }
+
+.trend-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  background: #ccc;
+  overflow: hidden;
+}
+
+.meta { font-size: 13px; color: #666; margin-top: 5px; }
+
+/* Add Button */
+.add-assets-wrapper {
   display: flex;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 80px;
 }
 
 .add-assets-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  background-color: var(--foreground);
-  color: var(--card);
-  padding: 0.75rem 2rem;
-  border-radius: 9999px;
-  font-weight: 600;
+  background: black;
+  color: white;
   border: none;
+  border-radius: 40px;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 17px;
   cursor: pointer;
-  transition: all 0.2s;
-}
-
-.add-assets-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-}
-
-.add-assets-btn__icon {
-  width: 2rem;
-  height: 2rem;
-  background-color: var(--primary);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.add-assets-btn__icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
-  color: var(--primary-foreground);
-}
-
-/* ------------------------- */
-/* SECTION STYLES */
-/* ------------------------- */
-.section {
-  margin-bottom: 4rem;
-  animation: fadeIn 0.5s ease-out;
-}
-
-.section__title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  margin-bottom: 2rem;
-}
-
-/* ------------------------- */
-/* CREATIONS LIST */
-/* ------------------------- */
-.creations-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.creation-item {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  animation: slideIn 0.4s ease-out;
-}
-
-.creation-item__image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.creation-item__info h3 {
-  font-weight: 700;
-  font-size: 1.125rem;
-}
-
-.creation-item__type {
-  color: var(--muted-foreground);
-  font-size: 0.875rem;
-}
-
-.creation-item__price {
-  color: var(--primary);
   font-weight: 600;
+  font-size: 16px;
 }
 
-/* ------------------------- */
-/* MOST POPULAR SECTION */
-/* ------------------------- */
-.popular-content {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
+.add-assets-btn .plus {
+  background: red;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 }
 
-.popular-content__image {
-  width: 6rem;
-  height: 6rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.popular-content__title {
-  font-weight: 700;
-  font-size: 1.125rem;
-  letter-spacing: 0.05em;
-}
-
-.popular-content__stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-  margin-top: 0.5rem;
-}
-
-.stat {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stat svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-/* ------------------------- */
-/* TRENDING SECTION */
-/* ------------------------- */
-.trending-header {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.trending-header .highlight {
-  color: var(--trending-orange);
-  font-weight: 700;
-  font-style: italic;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-  text-decoration-thickness: 2px;
-}
-
-.trending-list {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.trending-item {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.trending-item__rank {
-  font-size: 3rem;
-  font-weight: 700;
-  font-style: italic;
-  color: hsla(215, 15%, 45%, 0.3);
-  min-width: 80px;
-}
-
-.trending-item__image {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.75rem;
-  object-fit: cover;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.trending-item__title {
-  font-weight: 700;
-  font-size: 1.125rem;
-}
-
-.trending-item__stats {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: var(--muted-foreground);
-  margin-top: 0.25rem;
-}
-
-/* ------------------------- */
-/* FOOTER */
-/* ------------------------- */
+/* Footer */
 .footer {
   text-align: center;
-  padding: 2.5rem 0;
-  opacity: 0.9;
-}
-
-.footer__logo {
-  width: 4rem;
-  margin: 0 auto 0.5rem;
-}
-
-.footer__copyright {
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-}
-
-/* ------------------------- */
-/* ANIMATIONS */
-/* ------------------------- */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-20px); }
-  to { opacity: 1; transform: translateX(0); }
+  margin-top: 100px;
+  font-size: 12px;
+  color: #777;
+  padding-bottom: 20px;
 }
