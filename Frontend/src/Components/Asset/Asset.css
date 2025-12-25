@@ -6,7 +6,7 @@
 /* --- Main Page Container --- */
 .assets-page {
   position: absolute;
-  top: 0;
+  top: 2rem;
   left: 0;
   right: 0;
   bottom: 0;
@@ -244,4 +244,37 @@
   font-size: 12px;
   color: #777;
   padding-bottom: 20px;
+}
+
+
+/* Ensure the page can scroll */
+.assets-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 5%; /* Padding for navbar */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Ensure the grid for Artists/Trending doesn't collapse */
+.artists-trending-grid {
+  display: flex;
+
+  gap: 30px;
+  margin-top: 40px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.trending-assets{
+  font-size: xx-large;
 }

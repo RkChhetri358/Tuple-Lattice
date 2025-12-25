@@ -112,6 +112,48 @@ export default function Asset() {
         )}
       </section>
 
+
+        {/* ARTISTS & TRENDING SECTION */}
+<section className="section artists-trending">
+  <div className="artists-trending-grid">
+<div className="trending">
+
+
+
+    {/* ARTISTS */}
+    <div className="artists-column">
+      <h2 className="section-title">Artists</h2>
+      <Carousel>
+        <Artist name="Sabria Mana" assets="12 assets" imageUrl="/1.png" />
+        <Artist name="Wnchu Kia" assets="9 assets" imageUrl="/2.png" />
+        <Artist name="Kruna Maga" assets="12 assets" imageUrl="/3.png" />
+        <Artist name="Taklle Bhau" assets="12 assets" imageUrl="/4.png" />
+        <Artist name="Prasis" assets="12 assets" imageUrl="/5.png" />
+        <Artist name="Roshni" assets="12 assets" imageUrl="/6.png" />
+        <Artist name="Wnchu Kia" assets="9 assets" imageUrl="/2.png" />
+        <Artist name="Sabria Mana" assets="12 assets" imageUrl="/1.png" />
+        <Artist name="Kruna Maga" assets="12 assets" imageUrl="/3.png" />
+        
+      </Carousel>
+    </div>
+
+    {/* TRENDING */}
+    <div className="trending-column">
+      <h2 className="section-title">Trending</h2>
+      <Trending className="trending-assets" rank="1st" title="Black Dawns" imageUrl="/1.png" />
+      <Trending className="trending-assets" rank="2nd" title="Piano Dawns" imageUrl="/2.png" />
+      <Trending className="trending-assets" rank="3rd" title="Piano Dawns" imageUrl="/3.png" />
+      <Trending className="trending-assets" rank="4th" title="Piano Dawns" imageUrl="/4.png" />
+      <Trending className="trending-assets" rank="5th" title="Piano Dawns" imageUrl="/5.png" />
+      <Trending className="trending-assets" rank="6th" title="Piano Dawns" imageUrl="/6.png" />
+    </div>
+
+  </div>
+  </div>
+</section>
+
+
+
       <footer className="footer">© Copyright 2025 All rights reserved.</footer>
     </div>
   );
@@ -182,3 +224,29 @@ const Carousel = ({ children }) => {
     </div>
   );
 };
+
+
+
+const Artist = ({ name, assets, imageUrl }) => (
+  <div className="artist">
+    <div className="artist-img">
+      <img src={imageUrl} alt={name} />
+    </div>
+    <h5>{name}</h5>
+    <span>{assets}</span>
+  </div>
+);
+
+const Trending = ({ rank, title, imageUrl }) => (
+  <div className="trending-row">
+    <div className="rank">{rank}</div>
+    <div className="trend-img"><img src={imageUrl} height={2000} alt={title} /></div>
+    <div>
+      <h4>{title}</h4>
+      <p className="meta">23300 sales · 900 reviews · Rs. 453,000</p>
+    </div>
+  </div>
+
+
+
+);
