@@ -31,18 +31,39 @@
   border-radius: inherit;
   display: block;
 }
+.carousel-infinite-window {
+  width: 100%;
+  overflow: hidden; /* Hide the extra sets of items */
+  padding: 20px 0;
+}
+.carousel-infinite-track {
+  display: flex;
+  gap: 30px;
+  /* width is handled by the flex items */
+  will-change: transform;
+}
+.carousel-item-fixed {
+  /* Calculate width based on 4 items visible at a time minus gaps */
+  flex: 0 0 calc(25% - 22.5px); 
+  transition: opacity 0.3s ease;
+}
 
-/* --- Carousel System --- */
-/* --- Carousel System Fix --- */
+/* Specific sizing for Small Asset Cards inside the infinite loop */
+.carousel-item-fixed .small-asset-card {
+  width: 100%; /* Take full width of the fixed slot */
+}
+
+/* Specific sizing for Artist circles inside the infinite loop */
+.carousel-item-fixed .artist {
+  width: 100%;
+}
 .carousel-wrappers {
   position: relative;
   display: flex;
   align-items: center;
-  /* Increase padding so the buttons sit outside the content area but inside the wrapper */
-  padding: 0 60px; 
-  /* Negative margin pulls the padding back so the content aligns with page titles */
-  margin: 0 -60px; 
-  overflow: visible; /* Crucial so buttons aren't clipped */
+  padding: 0 50px;
+  margin: 0 -50px;
+  overflow: visible;
 }
 
 .carousel-container {
@@ -64,7 +85,7 @@
 .carousel-btn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  z-index: 100;
   background: red;
   color: white;
   border: none;
@@ -72,21 +93,11 @@
   height: 45px;
   border-radius: 50%;
   cursor: pointer;
-  z-index: 100; /* High Z-index to stay on top of all images */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
 }
 
-.carousel-btn.left { 
-  left: 5px; 
-}
-
-.carousel-btn.right { 
-  right: 5px; 
-}
+.carousel-btn.left { left: 0; }
+.carousel-btn.right { right: 0; }
 
 .carousel-btn:hover {
   background: #ff0000;

@@ -84,75 +84,49 @@ export default function Asset() {
 /* ---------- COMPONENTS ---------- */
 
 const Carousel = ({ children }) => {
-  const scrollRef = useRef(null);
-
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const { scrollLeft, clientWidth, scrollWidth } = scrollRef.current;
-      const scrollAmount = clientWidth / 2;
-      const contentWidth = scrollWidth / 3; // Each set takes 1/3 of total width (we have 3 copies)
-
-      if (direction === "left") {
-        const newScrollLeft = scrollLeft - scrollAmount;
-        
-        scrollRef.current.scrollTo({
-          left: newScrollLeft,
-          behavior: "smooth",
-        });
-
-        // If we've scrolled too far left, jump to equivalent position in middle set
-        setTimeout(() => {
-          if (scrollRef.current && scrollRef.current.scrollLeft < contentWidth * 0.5) {
-            scrollRef.current.scrollLeft = scrollRef.current.scrollLeft + contentWidth;
-          }
-        }, 300);
-      } else {
-        const newScrollLeft = scrollLeft + scrollAmount;
-        
-        scrollRef.current.scrollTo({
-          left: newScrollLeft,
-          behavior: "smooth",
-        });
-
-        // If we've scrolled too far right, jump to equivalent position in middle set
-        setTimeout(() => {
-          if (scrollRef.current && scrollRef.current.scrollLeft > contentWidth * 1.5) {
-            scrollRef.current.scrollLeft = scrollRef.current.scrollLeft - contentWidth;
-          }
-        }, 300);
-      }
+  const [rotation, setRotation] = React.useState(0);
+  const totalItems = React.Children.count(children);
+  
+  // How many items to show at once (helps calculate the step)
+  const itemsPerPage = 4; 
+  
+  const handleScroll = (direction) => {
+    if (direction === "right") {
+      setRotation((prev) => prev + 1);
+    } else {
+      setRotation((prev) => prev - 1);
     }
   };
 
-  // Start at the middle set on mount
-  React.useEffect(() => {
-    if (scrollRef.current) {
-      const contentWidth = scrollRef.current.scrollWidth / 3;
-      scrollRef.current.scrollLeft = contentWidth;
-    }
-  }, []);
-
   return (
     <div className="carousel-wrappers">
-      <button 
-        className="carousel-btn left" 
-        onClick={() => scroll("left")}
-        aria-label="Scroll Left"
-      >
+      <button className="carousel-btn left" onClick={() => handleScroll("left")}>
         <FontAwesomeIcon icon={faChevronLeft} />
       </button>
-      
-      <div className="carousel-container" ref={scrollRef}>
-        {children}
-        {children}
-        {children}
+
+      <div className="carousel-infinite-window">
+        <div 
+          className="carousel-infinite-track" 
+          style={{ 
+            transform: `translateX(calc(-${rotation * (100 / itemsPerPage)}%))`,
+            transition: "transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)"
+          }}
+        >
+          {/* We render 3 sets: Previous, Current, and Next to ensure 
+              the loop always has content visible during the move */}
+          {React.Children.map(children, (child) => (
+            <div className="carousel-item-fixed">{child}</div>
+          ))}
+          {React.Children.map(children, (child) => (
+            <div className="carousel-item-fixed">{child}</div>
+          ))}
+          {React.Children.map(children, (child) => (
+            <div className="carousel-item-fixed">{child}</div>
+          ))}
+        </div>
       </div>
 
-      <button 
-        className="carousel-btn right" 
-        onClick={() => scroll("right")}
-        aria-label="Scroll Right"
-      >
+      <button className="carousel-btn right" onClick={() => handleScroll("right")}>
         <FontAwesomeIcon icon={faChevronRight} />
       </button>
     </div>
