@@ -3,8 +3,18 @@ import "./Dashboard.css";
 import Video3DCarousel from "../Carousel/Video3DCarousel";
 
 export default function Dashboard() {
+  // --- STATE FOR DYNAMIC USERNAME ---
+  const [userName, setUserName] = useState("User");
+
   useEffect(() => {
     document.body.classList.add("has-transparent-navbar");
+
+    // --- FETCH USERNAME FROM LOCALSTORAGE ---
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.username) {
+      setUserName(storedUser.username);
+    }
+
     return () => {
       document.body.classList.remove("has-transparent-navbar");
     };
@@ -43,13 +53,15 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <sec  tion className="welcome-section">
+      {/* Fixed the typo 'sec  tion' to 'section' */}
+      <section className="welcome-section">
         <p className="welcome-text">Welcome</p>
         <h1 className="welcome-name">
-          Mr. Yadav<span>,</span>
+          {/* DYNAMIC USERNAME INSERTED HERE */}
+          Mr. {userName}<span>,</span>
         </h1>
         <p className="welcome-role">Senior Musician | Writer | Creator</p>
-      </sec>
+      </section>
 
       <div className="dashboardmiddle">
         <Video3DCarousel />
@@ -58,7 +70,11 @@ export default function Dashboard() {
       <section className="stats-section">
         {stats.map((stat, idx) => (
           <div className="stat-item" key={idx}>
-            <h2>{counts[idx] >= 1000 ? `${(counts[idx]/1000).toFixed(1)}k` : counts[idx]}</h2>
+            <h2>
+              {counts[idx] >= 1000 
+                ? `${(counts[idx] / 1000).toFixed(1)}k` 
+                : counts[idx]}
+            </h2>
             <p>{stat.label}</p>
           </div>
         ))}

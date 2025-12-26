@@ -138,14 +138,14 @@ const Login = () => {
           </button>
           
         </div>
-
-          <div className="signup-link"> Don’t have an account?<Link to="/signup"> Sign up</Link>
+         <div className="signup-link"> Don’t have an account?<Link to="/signup"> Sign up</Link>
            </div> 
-           <div className="terms-condition">
-             By continuing, you agree to UTA's
-              <span>Terms of Use</span> 
-              and <span>Privacy Policy</span> 
-              </div>
+
+          <div className="terms-condition">
+          By continuing, you agree to UTA's
+          <span> Terms of Use </span> and
+          <span> Privacy Policy</span>
+        </div>
       </div>
     </div>
   );
