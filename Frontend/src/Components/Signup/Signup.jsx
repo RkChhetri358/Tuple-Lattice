@@ -50,11 +50,11 @@ const Signup = () => {
           <img src="/UTA.png" alt="UTA Logo" className="logo" />
           <h2>Create Account</h2>
         </div>
-
+<br />
         <form className="signup-form" onSubmit={handleSubmit}>
           {/* ROLE SELECTION */}
           <div className="form-group">
-            <label>I am a...</label>
+            <label id="role-label">SELECT ROLE</label>
             <div className="role-options">
               <label className={formData.role === "artist" ? "active" : ""}>
                 <input
