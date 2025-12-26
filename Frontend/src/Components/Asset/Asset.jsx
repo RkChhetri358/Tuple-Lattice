@@ -66,7 +66,8 @@ export default function Asset() {
           </button>
         </div>
       )}
-
+<br/>
+<br/>
       {/* SECTION: YOUR INVENTORY */}
       <section className="section">
         <h2 className="section-title">YOUR CREATIONS & COLLECTION</h2>
@@ -112,6 +113,48 @@ export default function Asset() {
         )}
       </section>
 
+
+        {/* ARTISTS & TRENDING SECTION */}
+<section className="section artists-trending">
+  <div className="artists-trending-grid">
+<div className="trending">
+
+
+
+    {/* ARTISTS */}
+    <div className="artists-column">
+      <h2 className="section-title">Artists</h2>
+      <Carousel>
+        <Artist name="Sabria Mana" assets="12 assets" imageUrl="/1.png" />
+        <Artist name="Wnchu Kia" assets="9 assets" imageUrl="/2.png" />
+        <Artist name="Kruna Maga" assets="12 assets" imageUrl="/3.png" />
+        <Artist name="Taklle Bhau" assets="12 assets" imageUrl="/4.png" />
+        <Artist name="Prasis" assets="12 assets" imageUrl="/5.png" />
+        <Artist name="Roshni" assets="12 assets" imageUrl="/6.png" />
+        <Artist name="Wnchu Kia" assets="9 assets" imageUrl="/2.png" />
+        <Artist name="Sabria Mana" assets="12 assets" imageUrl="/1.png" />
+        <Artist name="Kruna Maga" assets="12 assets" imageUrl="/3.png" />
+        
+      </Carousel>
+    </div>
+
+    {/* TRENDING */}
+    <div className="trending-column">
+      <h2 className="section-title">Trending</h2>
+      <Trending className="trending-assets" rank="1st" title="Black Dawns" imageUrl="/1.png" />
+      <Trending className="trending-assets" rank="2nd" title="Piano Dawns" imageUrl="/2.png" />
+      <Trending className="trending-assets" rank="3rd" title="Piano Dawns" imageUrl="/3.png" />
+      <Trending className="trending-assets" rank="4th" title="Piano Dawns" imageUrl="/4.png" />
+      <Trending className="trending-assets" rank="5th" title="Piano Dawns" imageUrl="/5.png" />
+      <Trending className="trending-assets" rank="6th" title="Piano Dawns" imageUrl="/6.png" />
+    </div>
+
+  </div>
+  </div>
+</section>
+
+
+
       <footer className="footer">© Copyright 2025 All rights reserved.</footer>
     </div>
   );
@@ -119,16 +162,19 @@ export default function Asset() {
 
 /* ---------- REUSABLE COMPONENTS ---------- */
 
-const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
+const AssetCard = ({ title, ownerName, price, imageUrl, onClick, description }) => (
   <div className="asset-card" onClick={onClick} style={{ cursor: 'pointer' }}>
     <div className="asset-img">
       <img src={imageUrl || "/placeholder.png"} alt={title} />
     </div>
     <div className="asset-info">
       <h4>{title}</h4>
-      <p className="owner-name" style={{ color: "#888", fontSize: "0.85rem", margin: "4px 0" }}>
-        Owner: {ownerName}
-      </p>
+      {ownerName && (
+        <p className="owner-name" style={{ color: "#888", fontSize: "0.85rem", margin: "4px 0" }}>
+          Owner: {ownerName}
+        </p>
+      )}
+      {description && <p className="description">{description}</p>}
       <span className="price" style={{ fontWeight: "bold", color: "#e63946" }}>
         {price}
       </span>
@@ -137,19 +183,19 @@ const AssetCard = ({ title, ownerName, price, imageUrl, onClick }) => (
 );
 
 const SmallAsset = ({ title, price, imageUrl, sellerName, onClick, isOwnListing }) => (
-  <div 
-    className="small-asset-card" 
-    onClick={onClick} 
-    style={{ cursor: "pointer" }}
-  >
+  <div className="small-asset-card" onClick={onClick} style={{ cursor: "pointer" }}>
     <div className="small-img">
       <img src={imageUrl || "/placeholder.png"} alt={title} />
       {isOwnListing && <div className="own-badge">Your Listing</div>}
     </div>
     <div className="small-asset-info">
-        <h5>{title}</h5>
-        <p className="seller-hint" style={{ fontSize: "0.75rem", color: "#666" }}>Seller: {sellerName}</p>
-        <span className="price">{price}</span>
+      <h5>{title}</h5>
+      {sellerName && (
+        <p className="seller-hint" style={{ fontSize: "0.75rem", color: "#666" }}>
+          Seller: {sellerName}
+        </p>
+      )}
+      <span className="price">{price}</span>
     </div>
   </div>
 );
@@ -182,3 +228,27 @@ const Carousel = ({ children }) => {
     </div>
   );
 };
+
+const Artist = ({ name, assets, imageUrl }) => (
+  <div className="artist">
+    <div className="artist-img">
+      <img src={imageUrl} alt={name} />
+    </div>
+    <h5>{name}</h5>
+    <span>{assets}</span>
+  </div>
+);
+
+const Trending = ({ rank, title, imageUrl }) => (
+  <div className="trending-row">
+    <div className="rank">{rank}</div>
+    <div className="trend-img">
+      {/* Changed height from 2000 to 60px to prevent breaking layout */}
+      <img src={imageUrl} style={{ height: "60px", objectFit: "cover" }} alt={title} />
+    </div>
+    <div>
+      <h4>{title}</h4>
+      <p className="meta">23300 sales · 900 reviews · Rs. 453,000</p>
+    </div>
+  </div>
+);

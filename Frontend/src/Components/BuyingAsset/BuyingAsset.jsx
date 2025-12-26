@@ -158,4 +158,8 @@ export default function BuyingAsset() {
       </div>
     </div>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 9d0041d00b410bd429e5847784ce6784532ea74e

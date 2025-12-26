@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import mint_art_api, PrimaryPurchase, ListForResale, BuyResale, ArtworkListView, WalletActivityView,SignupView,LoginView,ActiveListingsView
+from .views import mint_art_api, PrimaryPurchase, ListForResale, BuyResale, ArtworkListView, WalletActivityView,SignupView,LoginView,ActiveListingsView,get_profile_data
 
 urlpatterns = [
     path("mint/", mint_art_api),
@@ -11,5 +11,5 @@ urlpatterns = [
     path('signup/', SignupView.as_view(), name='signup'),
     path('login/', LoginView.as_view(), name='login'),
     path('active-listings/', ActiveListingsView.as_view(), name='active-listings'),
-
+    path("profile/<str:wallet_address>/", get_profile_data, name="profile_data"),
 ]

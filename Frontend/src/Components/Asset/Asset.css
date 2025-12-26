@@ -10,8 +10,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow-y: auto;    /* Vertical scroll for the whole page */
+  overflow-x: hidden;  /* Prevent horizontal shaking */
   padding: 140px 100px 80px;
   background: url("/bg.png") no-repeat center center;
   background-size: cover;
@@ -19,6 +19,7 @@
 }
 
 /* --- Global Image Fix --- */
+/* Ensures all asset/artist images fit their containers without overlapping */
 .asset-img img,
 .small-img img,
 .artist-img img,
@@ -26,252 +27,187 @@
 .trend-img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; 
   border-radius: inherit;
   display: block;
 }
-.red-most{
-  /* border: 2px solid red; */
-  color: #ff0000;
-    font-family: "Raleway", sans-serif;
-    font-weight: 500;
 
-}
-
-/* ========== CAROUSEL SYSTEM ========== */
+/* --- Carousel System --- */
+/* --- Carousel System Fix --- */
 .carousel-wrappers {
   position: relative;
   display: flex;
   align-items: center;
-  padding: 0 30px;
-  margin: 0 40px;
-  overflow: visible;
+  /* Increase padding so the buttons sit outside the content area but inside the wrapper */
+  padding: 0 60px; 
+  /* Negative margin pulls the padding back so the content aligns with page titles */
+  margin: 0 -60px; 
+  overflow: visible; /* Crucial so buttons aren't clipped */
 }
 
-.carousel-infinite-window {
-  width: 100%;
-  overflow: hidden;
-  padding: 15px 0;
-  /* Removed click-to-drag cursor */
-  cursor: default !important; 
-}
-
-.carousel-infinite-track {
+.carousel-container {
   display: flex;
-  /* Reduced gap between items to make them look more connected */
-  gap: 15px; 
-  will-change: transform;
+  gap: 30px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  /* Hide Scrollbars */
+  scrollbar-width: none; 
+  -ms-overflow-style: none;
+  padding: 20px 0;
+  width: 100%;
 }
 
-.carousel-item-fixed {
-  /* Precisely fits 4 items per view with the 15px gap */
-  flex: 0 0 calc(25% - 11.25px); 
-  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-  pointer-events: auto;
-}
 
-.carousel-item-fixed:hover {
-  transform: scale(1.03);
-  z-index: 2;
+.carousel-container::-webkit-scrollbar {
+  display: none;
 }
-
-/* ========== CAROUSEL BUTTONS ========== */
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 100;
   background: red;
   color: white;
   border: none;
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 4px 15px rgba(255, 0, 0, 0.3);
+  z-index: 100; /* High Z-index to stay on top of all images */
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
-  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.carousel-btn.left {
-  left: 0;
+.carousel-btn.left { 
+  left: 5px; 
 }
 
-.carousel-btn.right {
-  right: 0;
+.carousel-btn.right { 
+  right: 5px; 
 }
 
 .carousel-btn:hover {
   background: #ff0000;
   transform: translateY(-50%) scale(1.15);
-  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.5);
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
 }
 
 .carousel-btn:active {
   transform: translateY(-50%) scale(0.95);
 }
 
-/* ========== ASSETS FOR SALE (Smaller Images) ========== */
-.small-asset-card {
-  text-align: left;
-}
-
-.small-img {
-  width: 100%;
-  /* Reduced from 200px to 140px for a more compact marketplace look */
-  height: 140px; 
-  border-radius: 14px;
-  background: #ccc;
-  margin-bottom: 8px;
-  overflow: hidden;
-}
-
-.small-asset-card h5 {
-  font-size: 14px;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* ========== ARTISTS (Tight Layout) ========== */
-.artist {
-  text-align: center;
-}
-
-.artist-img {
-  /* Slightly smaller circles to reduce overall footprint */
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: #ccc;
-  margin: 0 auto 8px;
-  overflow: hidden;
-  border: 3px solid white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.artist h5 {
-  font-size: 15px;
-  margin-bottom: 2px;
-  font-weight: 600;
-}
-
-.artist span {
-  font-size: 12px;
-  color: #666;
-}
-
-/* ========== YOUR CREATIONS (Grid) ========== */
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-}
-
-.asset-card {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  transition: transform 0.3s ease;
-}
-
-.asset-card:hover {
-  transform: translateY(-5px);
-}
-
-.asset-img {
-  flex-shrink: 0;
-  width: 100px;
-  height: 100px;
-  border-radius: 18px;
-  background: #ccc;
-  overflow: hidden;
-}
-
-/* ========== SECTIONS & TITLES ========== */
+/* Ensure the section containing the carousel doesn't clip the buttons */
 .section {
   margin-bottom: 80px;
   overflow: visible !important;
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 30px;
   text-transform: uppercase;
-  font-weight: 600;
 }
 
-.section-title-large {
-  font-size: 36px;
-  margin-bottom: 40px;
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1px;
+.section-title.right { text-align: right; }
+.red { color: red; }
+
+/* Grid for "Your Creations" (3 Columns) */
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
 }
 
-.section-title.right,
-.section-title-large.right {
+/* --- Component Specifics --- */
+
+/* Your Creations Cards */
+.asset-card {
   display: flex;
-  
-  text-align: right;
+  gap: 16px;
+  align-items: center;
 }
 
-.red {
-  color: red;
+.asset-img {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  background: #ccc;
+  overflow: hidden;
 }
 
-/* ========== POPULAR & TRENDING ========== */
+/* Assets for Sale (Carousel Item) */
+.small-asset-card {
+  flex: 0 0 220px; /* Ensures items have a consistent width in carousel */
+  text-align: left;
+}
+
+.small-img {
+  width: 100%;
+  height: 160px; /* Uniform height for sale assets */
+  border-radius: 16px;
+  background: #ccc;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+/* Artist (Carousel Item) */
+.artist {
+  flex: 0 0 160px; /* Fixed width for artist column */
+  text-align: center;
+}
+
+.artist-img {
+  width: 130px;  /* Larger size as requested */
+  height: 130px; /* Larger size as requested */
+  border-radius: 50%;
+  background: #ccc;
+  margin: 0 auto 15px;
+  overflow: hidden;
+  border: 2px solid white;
+}
+
+/* Popular Card */
 .popular-card {
   display: flex;
-  gap: 30px;
+  gap: 20px;
   align-items: center;
-  padding: 20px;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 20px;
-  transition: transform 0.3s ease;
 }
 
 .popular-img {
   flex-shrink: 0;
-  width: 140px;
-  height: 140px;
+  width: 120px;
+  height: 120px;
   border-radius: 22px;
   background: #ccc;
   overflow: hidden;
 }
 
+/* Trending Rows */
 .trending-row {
   display: grid;
-  grid-template-columns: 80px 100px 1fr;
+  grid-template-columns: 60px 80px 1fr;
   align-items: center;
-  gap: 25px;
-  padding: 30px 20px;
-  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 12px;
-  margin-bottom: 20px;
-  transition: transform 0.3s ease;
+  gap: 20px;
+  padding: 25px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.1);
 }
 
-.rank {
-  font-size: 36px;
-  font-weight: 700;
-  color: #333;
-}
+.rank { font-size: 28px; font-weight: 700; }
 
 .trend-img {
-  width: 90px;
-  height: 90px;
+  width: 70px;
+  height: 70px;
   border-radius: 16px;
   background: #ccc;
   overflow: hidden;
 }
 
-/* ========== BUTTONS & FOOTER ========== */
+.meta { font-size: 13px; color: #666; margin-top: 5px; }
+
+/* Add Button */
 .add-assets-wrapper {
   display: flex;
   justify-content: center;
@@ -283,24 +219,25 @@
   color: white;
   border: none;
   border-radius: 40px;
-  padding: 16px 32px;
+  padding: 14px 40px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 17px;
   cursor: pointer;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .add-assets-btn .plus {
   background: red;
-  width: 40px;
-  height: 40px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   display: grid;
   place-items: center;
 }
 
+/* Footer */
 .footer {
   text-align: center;
   margin-top: 100px;
@@ -310,4 +247,37 @@
 }
 .small-img{
   width: 150px;
+}
+
+
+/* Ensure the page can scroll */
+.assets-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 80px 5%; /* Padding for navbar */
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
+/* Ensure the grid for Artists/Trending doesn't collapse */
+.artists-trending-grid {
+  display: flex;
+
+  gap: 30px;
+  margin-top: 40px;
+  width: 100%;
+  flex-direction: column;
+}
+
+.trending-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+
+.trending-assets{
+  font-size: xx-large;
 }
