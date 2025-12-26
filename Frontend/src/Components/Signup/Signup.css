@@ -59,8 +59,8 @@ body {
 /* Role Selection */
 .role-options {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  justify-content: center;
+  gap: 40px;
   margin-top: 6px;
 }
 
@@ -70,6 +70,7 @@ body {
   gap: 6px;
   font-size: 13px;
   cursor: pointer;
+  font-weight: 700;
 }
 
 /* Password */
@@ -123,4 +124,13 @@ body {
 /* IE & old Edge */
 .signup-form {
   -ms-overflow-style: none;
+}
+
+
+#role-label {
+  font-size: 13px;
+  font-weight: 900;
+  color: #161616;
+  letter-spacing: 1px;
+  font-family: "Raleway", sans-serif;
 }
