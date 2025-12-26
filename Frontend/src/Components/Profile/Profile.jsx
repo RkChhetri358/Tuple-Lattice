@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-<<<<<<< HEAD
 import axios from "axios"; 
-=======
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWallet } from "@fortawesome/free-solid-svg-icons";
 import RevenueChart from "../RevenueChart/RevenueChart";
 import "./Profile.css";
 
 export default function Profile() {
-<<<<<<< HEAD
   const [profileData, setProfileData] = useState(null);
   const [animatedPercent, setAnimatedPercent] = useState([0, 0, 0]);
   const [loading, setLoading] = useState(true);
@@ -50,36 +46,6 @@ export default function Profile() {
     requestAnimationFrame(step);
   };
 
-=======
-  const revenueData = [
-    { title: "Distributor", percent: 60, amount: "Rs. 12,000" },
-    { title: "Collaborator", percent: 30, amount: "Rs. 3,000" },
-    { title: "Platform", percent: 10, amount: "Rs. 1,000" },
-  ];
-
-  const [animatedPercent, setAnimatedPercent] = useState([0, 0, 0]);
-
-  useEffect(() => {
-    let animationFrame;
-    const duration = 1000; // 1 second
-    const startTime = performance.now();
-
-    const animate = (time) => {
-      const progress = Math.min((time - startTime) / duration, 1);
-      setAnimatedPercent(
-        revenueData.map((item) => Math.floor(item.percent * progress))
-      );
-      if (progress < 1) {
-        animationFrame = requestAnimationFrame(animate);
-      }
-    };
-
-    animationFrame = requestAnimationFrame(animate);
-
-    return () => cancelAnimationFrame(animationFrame);
-  }, []);
-
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
   return (
     <div className="profile-container">
       <div className="profile-grid">
@@ -92,13 +58,9 @@ export default function Profile() {
                 <FontAwesomeIcon icon={faWallet} />
               </span>
             </div>
-<<<<<<< HEAD
             <h1 className="balance-amount">
                 {loading ? "Calculating..." : (profileData?.balance || "Rs. 0.00")}
             </h1>
-=======
-            <h1 className="balance-amount">Rs 13,000.67</h1>
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
             <p className="pending-text">pending Rs. 0.0</p>
           </div>
 
@@ -116,43 +78,26 @@ export default function Profile() {
                 “I share my work here with clear ownership, fair value, and
                 respect for the creative process.”
               </p>
-<<<<<<< HEAD
               {/* Show stored name immediately, then update with API data */}
               <h3>{profileData?.username || storedUser?.username || "Loading..."}</h3>
               <span>{profileData?.role || storedUser?.role || "Verified Artist"}</span>
-=======
-              <h3>Arun Yadav</h3>
-              <span>verified artist</span>
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
             </div>
           </div>
 
           {/* REVENUE CARD */}
           <div className="revenue-card">
             <h2>Revenue Distribution</h2>
-<<<<<<< HEAD
             {(profileData?.revenue_stats || []).map((item, idx) => (
-=======
-            {revenueData.map((item, idx) => (
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
               <div className="rev-item" key={idx}>
                 <span className="rev-title">{item.title}</span>
                 <div className="bar">
                   <div
-<<<<<<< HEAD
                     style={{ width: `${animatedPercent[idx] || 0}%` }}
-=======
-                    style={{ width: `${animatedPercent[idx]}%` }}
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
                     className="bar-fill"
                   />
                 </div>
                 <div className="right">
-<<<<<<< HEAD
                   <span className="percent">{animatedPercent[idx] || 0}%</span>
-=======
-                  <span className="percent">{animatedPercent[idx]}%</span>
->>>>>>> e1e3ec44c5923bf6e0a54955529838e351b64853
                   <span className="amount">{item.amount}</span>
                 </div>
               </div>

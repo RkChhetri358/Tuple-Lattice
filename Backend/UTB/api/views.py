@@ -336,7 +336,6 @@ def get_profile_data(request, wallet_address):
         
         def get_perc(val):
             return round((val / total_for_stats) * 100) if total_for_stats > 0 else 0
-
         data = {
             "username": user.username,
             "role": user.role,
